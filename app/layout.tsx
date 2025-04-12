@@ -28,12 +28,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <div className="fixed top-0 z-[-2] h-screen w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]"></div>
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="dark"
           disableTransitionOnChange
         >
-          <div className="w-full  mx-auto bg-background max-w-4xl flex justify-center items-center">
+          <div className="mx-auto flex w-full max-w-5xl flex-col items-center justify-center gap-10">
             {children}
           </div>
         </ThemeProvider>
