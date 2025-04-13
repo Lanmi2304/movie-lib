@@ -25,10 +25,7 @@ export function Search({ className }: { className?: string }) {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="relative mt-10 w-full"
-      >
+      <form onSubmit={form.handleSubmit(onSubmit)} className="relative w-full">
         <FormField
           control={form.control}
           name="term"
