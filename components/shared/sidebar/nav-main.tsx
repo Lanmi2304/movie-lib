@@ -1,6 +1,6 @@
 "use client";
 
-import { type LucideIcon } from "lucide-react";
+import { Home, type LucideIcon } from "lucide-react";
 
 import {
   SidebarGroup,
@@ -9,6 +9,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 export function NavMain({
   items,
@@ -28,9 +29,17 @@ export function NavMain({
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
+        <SidebarMenuItem>
+          <Link href="/">
+            <SidebarMenuButton tooltip="Home" className="cursor-pointer">
+              <Home />
+              Home
+            </SidebarMenuButton>
+          </Link>
+        </SidebarMenuItem>
         {items.map((item) => (
           <SidebarMenuItem key={item.title}>
-            <SidebarMenuButton tooltip={item.title}>
+            <SidebarMenuButton tooltip={item.title} className="cursor-pointer">
               {item.icon && <item.icon />}
               <span>{item.title}</span>
             </SidebarMenuButton>
