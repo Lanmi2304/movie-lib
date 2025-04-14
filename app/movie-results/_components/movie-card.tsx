@@ -18,7 +18,7 @@ export function MovieCard({ movie }: { movie: Movie }) {
     <div className="group/card w-full">
       <div
         className={cn(
-          "card backgroundImage relative mx-auto flex h-80 w-48 cursor-pointer flex-col justify-between overflow-hidden rounded-md bg-cover bg-center p-4 shadow-xl lg:h-96 lg:w-60",
+          "card backgroundImage relative mx-auto flex h-60 w-32 cursor-pointer flex-col justify-between overflow-hidden rounded-md bg-cover bg-center p-4 shadow-xl md:h-80 md:w-48 lg:h-96 lg:w-60",
         )}
         style={{
           backgroundImage: `url(${poster})`,

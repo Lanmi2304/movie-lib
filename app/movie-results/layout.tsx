@@ -6,7 +6,7 @@ export default function MoviesListLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mt-[700px]w-full mx-auto flex max-w-5xl flex-col items-center justify-center gap-10 p-4">
+    <div className="mx-auto mt-12 flex w-full max-w-5xl flex-col items-center justify-center gap-10 p-4">
       <Search />
       {children}
     </div>

@@ -8,6 +8,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/shared/sidebar/app-sidebar";
+import { TailwindIndicator } from "@/components/shared/tailwind-indicator";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,6 +54,7 @@ export default function RootLayout({
             </SidebarInset>
           </SidebarProvider>
         </ThemeProvider>
+        <TailwindIndicator />
       </body>
     </html>
   );

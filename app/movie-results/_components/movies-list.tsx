@@ -48,7 +48,7 @@ export async function MovieList({
     <div className="mb-10 grid gap-10">
       <div
         className={cn(
-          "grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4",
+          "grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4",
           ` grid-rows-[${rowsSm}] lg:grid-rows-[${rowsLg}]`,
         )}
       >
