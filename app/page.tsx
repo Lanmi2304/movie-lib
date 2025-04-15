@@ -3,7 +3,7 @@ import { Trending } from "./(hero)/_components/trending-carousel";
 
 export default function Page() {
   return (
-    <div className="relative flex h-[100dvh] w-full flex-col items-center justify-center p-4">
+    <div className="relative flex h-[100dvh] flex-col items-center justify-center p-4">
       <div className="absolute size-full bg-[url(/images/dp_hero.jpg)] mask-r-from-5% mask-l-from-5% bg-cover bg-center"></div>
 
       <div className="relative top-20 grid max-w-3xl gap-4">

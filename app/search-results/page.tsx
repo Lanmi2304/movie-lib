@@ -30,6 +30,7 @@ export type Movie = {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  media_type: string;
 };
 
 export default async function Page(props: {

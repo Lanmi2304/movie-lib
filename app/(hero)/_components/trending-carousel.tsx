@@ -1,6 +1,5 @@
-import { MovieCard } from "@/app/movie-results/_components/movie-card";
-import { Movie } from "@/app/movie-results/page";
-
+import { MovieCard } from "@/app/search-results/_components/movie-card";
+import { Movie } from "@/app/search-results/page";
 import {
   Carousel,
   CarouselContent,

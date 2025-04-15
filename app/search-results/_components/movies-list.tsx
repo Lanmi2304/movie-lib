@@ -17,6 +17,7 @@ export type Movie = {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  media_type: string;
 };
 
 export async function MovieList({
@@ -28,7 +29,7 @@ export async function MovieList({
 }) {
   console.log(searchTerm);
   const response = await fetch(
-    `https://api.themoviedb.org/3/search/movie?query=${searchTerm}&include_adult=false&language=en-US&page=${page}`,
+    `https://api.themoviedb.org/3/search/multi?query=${searchTerm}&include_adult=false&language=en-US&page=${page}`,
     {
       headers: {
         accept: "application/json",
@@ -38,6 +39,7 @@ export async function MovieList({
   );
 
   const movieList = await response.json();
+  console.log(movieList);
 
   if (!movieList.results.length) return <div>No results found</div>;
 
@@ -45,7 +47,7 @@ export async function MovieList({
   const rowsSm = Math.ceil(movieList.results.length / 2);
 
   return (
-    <div className="mb-10 grid gap-10">
+    <div className="mb-10 grid w-full gap-10">
       <div
         className={cn(
           "grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4",

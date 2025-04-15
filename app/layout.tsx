@@ -44,12 +44,9 @@ export default function RootLayout({
           <SidebarProvider>
             <AppSidebar />
             <SidebarInset className="bg-transparent">
-              <SidebarTrigger className="absolute z-50 ml-1" />
-
-              <div className="flex flex-1 flex-col gap-4">
-                <div className="mx-auto max-h-[100dvh] w-full overflow-y-scroll">
-                  {children}
-                </div>
+              <SidebarTrigger className="absolute -left-8 z-40" />
+              <div className="size-full pt-0">
+                <div className="wrapper size-full">{children}</div>
               </div>
             </SidebarInset>
           </SidebarProvider>

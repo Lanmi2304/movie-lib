@@ -20,7 +20,7 @@ export function Search({ className }: { className?: string }) {
   const router = useRouter();
 
   function onSubmit({ term }: SearchSchemaInput) {
-    router.push(`/movie-results?searchTerm=${term}&page=1`);
+    router.push(`/search-results?searchTerm=${term}&page=1`);
   }
 
   return (
