@@ -20,30 +20,33 @@ export async function Trending() {
   );
 
   const movies = await response.json();
+
   return (
-    <div className="bg-background/80 relative top-40 grid gap-4 rounded-xl p-4">
-      <h1 className="text-2xl font-semibold">Popular</h1>
-      <Carousel
-        opts={{
-          align: "start",
-          loop: true,
-          dragFree: true,
-        }}
-        className="flex max-w-[370px] items-center justify-center sm:max-w-xl md:max-w-3xl lg:max-w-5xl xl:max-w-[1300px]"
-      >
-        <CarouselContent>
-          {movies.results.map((movie: Movie, index: number) => (
-            <CarouselItem
-              key={index}
-              className="basis-1/3 md:basis-1/4 lg:basis-1/4 xl:basis-1/5"
-            >
-              <MovieCard movie={movie} />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious className="absolute -left-3" />
-        <CarouselNext className="absolute -right-3" />
-      </Carousel>
+    <div className="w-full rounded-xl">
+      <h3 className="text-3xl font-semibold">Popular</h3>
+      {movies.length === 0 ? (
+        <p>No movies found</p>
+      ) : (
+        <Carousel
+          className="w-full bg-black/80"
+          opts={{ loop: true, dragFree: true }}
+        >
+          <CarouselContent className="relative -ml-1 flex">
+            {movies.results.map((movie: Movie) => (
+              <CarouselItem
+                key={crypto.randomUUID()}
+                className="mx-0 basis-1/2 pl-1 sm:basis-1/3 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
+              >
+                <div className="p-1">
+                  <MovieCard movie={movie} className="h-96 lg:w-full" />
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="absolute -left-3" />
+          <CarouselNext className="absolute -right-3" />
+        </Carousel>
+      )}
     </div>
   );
 }

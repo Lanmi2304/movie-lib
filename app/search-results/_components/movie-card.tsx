@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils/cn";
 import { Star } from "lucide-react";
 import Link from "next/link";
 
-// TODO: movie card component that accepts movie
 export function MovieCard({
   movie,
   className,
@@ -16,10 +15,13 @@ export function MovieCard({
     ? `https://image.tmdb.org/t/p/original/${movie.poster_path}`
     : "https://lh3.googleusercontent.com/proxy/rnI3_En64EP7f3eLxeUK59zazrOt3DPuEhk8NOfOY_jdK7VbA7ucKFfwPTqdi_wFZCDyEWJ7hDnZq6D-94CPn7Qlp3A8tmPuWmJZf4aO3kbPtBnKfwVtZw";
 
-  const categories = movie.genre_ids
-    .map((id) => categoryTitle(id))
-    .splice(0, 2)
-    .join(", ");
+  const categories =
+    movie.genre_ids !== undefined
+      ? movie.genre_ids
+          .map((id) => categoryTitle(id))
+          .splice(0, 2)
+          .join(", ")
+      : "Category";
 
   const mediaType = movie.media_type === "tv";
   return (
@@ -27,12 +29,11 @@ export function MovieCard({
       href={
         !mediaType ? `movie-details/${movie.id}` : `tv-show-details/${movie.id}`
       }
-      className="w-20"
     >
       <div className="group/card">
         <div
           className={cn(
-            "card backgroundImage relative flex h-80 cursor-pointer flex-col justify-between overflow-hidden rounded-md bg-cover bg-center p-4 shadow-xl md:h-80 md:w-48 lg:h-96 lg:w-60",
+            "card relative flex h-80 w-48 cursor-pointer flex-col justify-between overflow-hidden rounded-md bg-cover bg-center p-4 shadow-xl lg:h-96 lg:w-60",
             className,
           )}
           style={{
@@ -47,7 +48,7 @@ export function MovieCard({
               </p>
               <div className="flex items-center gap-1 text-sm text-gray-400">
                 <Star className="size-4" />
-                {movie.vote_average.toFixed(1)}
+                {movie.vote_average ? movie.vote_average.toFixed(1) : ""}
               </div>
             </div>
           </div>

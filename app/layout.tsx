@@ -43,11 +43,10 @@ export default function RootLayout({
           <div className="fixed top-0 z-[-2] h-full w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(60,60,120,0.5),rgba(0,0,0,0))]"></div>
           <SidebarProvider>
             <AppSidebar />
-            <SidebarInset className="bg-transparent">
-              <SidebarTrigger className="absolute -left-8 z-40" />
-              <div className="size-full pt-0">
-                <div className="wrapper size-full">{children}</div>
-              </div>
+            <SidebarInset>
+              <SidebarTrigger className="absolute z-40 lg:-left-8" />
+
+              <div className="wrapper size-full px-4 lg:px-0">{children}</div>
             </SidebarInset>
           </SidebarProvider>
         </ThemeProvider>
