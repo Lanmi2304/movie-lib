@@ -1,5 +1,6 @@
 import PlayTrailer from "@/app/movie-details/[slug]/_components/play-trailler";
-import { options } from "@/app/movie-details/[slug]/page";
+import { options } from "@/lib/configs/auth-options";
+
 import { categoryTitle } from "@/lib/utils/categories";
 import { Star, SunSnow, Tv } from "lucide-react";
 import Image from "next/image";

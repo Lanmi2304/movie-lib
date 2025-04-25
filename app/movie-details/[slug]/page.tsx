@@ -2,14 +2,7 @@ import { categoryTitle } from "@/lib/utils/categories";
 import { Clock, Star } from "lucide-react";
 import Image from "next/image";
 import PlayTrailer from "./_components/play-trailler";
-
-// TODO: refactor this
-export const options = {
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-  },
-};
+import { options } from "@/lib/configs/auth-options";
 
 export default async function Page({
   params,

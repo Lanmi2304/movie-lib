@@ -64,7 +64,7 @@ export function PaginationWithLinks({
       newSearchParams.set(key, String(newPage));
       return `${pathname}?${newSearchParams.toString()}`;
     },
-    [searchParams, pathname]
+    [searchParams, pathname, pageSearchParam],
   );
 
   const navToPageSize = useCallback(
@@ -75,7 +75,7 @@ export function PaginationWithLinks({
       newSearchParams.delete(pageSearchParam || "page"); // Clear the page number when changing page size
       router.push(`${pathname}?${newSearchParams.toString()}`);
     },
-    [searchParams, pathname]
+    [searchParams, pathname, pageSearchParam],
   );
 
   const renderPageNumbers = () => {
@@ -86,26 +86,30 @@ export function PaginationWithLinks({
       for (let i = 1; i <= totalPageCount; i++) {
         items.push(
           <PaginationItem key={i}>
-            <PaginationLink href={buildLink(i)} isActive={page === i}>
+            <PaginationLink
+              size="icon"
+              href={buildLink(i)}
+              isActive={page === i}
+            >
               {i}
             </PaginationLink>
-          </PaginationItem>
+          </PaginationItem>,
         );
       }
     } else {
       items.push(
         <PaginationItem key={1}>
-          <PaginationLink href={buildLink(1)} isActive={page === 1}>
+          <PaginationLink size="icon" href={buildLink(1)} isActive={page === 1}>
             1
           </PaginationLink>
-        </PaginationItem>
+        </PaginationItem>,
       );
 
       if (page > 3) {
         items.push(
           <PaginationItem key="ellipsis-start">
             <PaginationEllipsis />
-          </PaginationItem>
+          </PaginationItem>,
         );
       }
 
@@ -115,10 +119,14 @@ export function PaginationWithLinks({
       for (let i = start; i <= end; i++) {
         items.push(
           <PaginationItem key={i}>
-            <PaginationLink href={buildLink(i)} isActive={page === i}>
+            <PaginationLink
+              size="icon"
+              href={buildLink(i)}
+              isActive={page === i}
+            >
               {i}
             </PaginationLink>
-          </PaginationItem>
+          </PaginationItem>,
         );
       }
 
@@ -126,19 +134,20 @@ export function PaginationWithLinks({
         items.push(
           <PaginationItem key="ellipsis-end">
             <PaginationEllipsis />
-          </PaginationItem>
+          </PaginationItem>,
         );
       }
 
       items.push(
         <PaginationItem key={totalPageCount}>
           <PaginationLink
+            size="icon"
             href={buildLink(totalPageCount)}
             isActive={page === totalPageCount}
           >
             {totalPageCount}
           </PaginationLink>
-        </PaginationItem>
+        </PaginationItem>,
       );
     }
 
@@ -146,9 +155,9 @@ export function PaginationWithLinks({
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center gap-3 w-full">
+    <div className="flex w-full flex-col items-center gap-3 md:flex-row">
       {pageSizeSelectOptions && (
-        <div className="flex flex-col gap-4 flex-1">
+        <div className="flex flex-1 flex-col gap-4">
           <SelectRowsPerPage
             options={pageSizeSelectOptions.pageSizeOptions}
             setPageSize={navToPageSize}
@@ -160,6 +169,7 @@ export function PaginationWithLinks({
         <PaginationContent className="max-sm:gap-0">
           <PaginationItem>
             <PaginationPrevious
+              size="icon"
               href={buildLink(Math.max(page - 1, 1))}
               aria-disabled={page === 1}
               tabIndex={page === 1 ? -1 : undefined}
@@ -171,6 +181,7 @@ export function PaginationWithLinks({
           {renderPageNumbers()}
           <PaginationItem>
             <PaginationNext
+              size="icon"
               href={buildLink(Math.min(page + 1, totalPageCount))}
               aria-disabled={page === totalPageCount}
               tabIndex={page === totalPageCount ? -1 : undefined}
@@ -198,7 +209,7 @@ function SelectRowsPerPage({
 }) {
   return (
     <div className="flex items-center gap-4">
-      <span className="whitespace-nowrap text-sm">Rows per page</span>
+      <span className="text-sm whitespace-nowrap">Rows per page</span>
 
       <Select
         value={String(pageSize)}
