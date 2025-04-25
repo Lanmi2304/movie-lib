@@ -35,7 +35,7 @@ export async function Trending() {
                 className="mx-0 basis-1/2 pl-1 sm:basis-1/3 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
               >
                 <div className="p-1">
-                  <MovieCard movie={movie} className="h-96 w-full" />
+                  <MovieCard movie={movie} className="h-80 w-full lg:h-96" />
                 </div>
               </CarouselItem>
             ))}
