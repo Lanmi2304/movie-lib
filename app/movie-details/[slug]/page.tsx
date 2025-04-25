@@ -55,7 +55,7 @@ export default async function Page({
             </div>
 
             {/* Details etc..  */}
-            <div className="flex w-3/4 flex-col gap-8">
+            <div className="flex w-full flex-col gap-8 lg:w-3/4">
               <div>
                 <h1 className="text-4xl font-semibold">
                   {movie.title} ({movie.release_date.slice(0, 4)})

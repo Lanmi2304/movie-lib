@@ -1,4 +1,3 @@
-import { Container } from "@/components/shared/container";
 import { Search } from "./(hero)/_components/search";
 import { Trending } from "./(hero)/_components/trending-carousel";
 
@@ -12,9 +11,8 @@ export default function Page() {
         </h1>
         <Search className="text-white placeholder:text-white" />
       </div>
-      <Container className="m-0">
-        <Trending />
-      </Container>
+
+      <Trending />
     </div>
   );
 }

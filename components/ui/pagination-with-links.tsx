@@ -87,7 +87,7 @@ export function PaginationWithLinks({
         items.push(
           <PaginationItem key={i}>
             <PaginationLink
-              size="icon"
+              // size="icon"
               href={buildLink(i)}
               isActive={page === i}
             >
@@ -99,7 +99,7 @@ export function PaginationWithLinks({
     } else {
       items.push(
         <PaginationItem key={1}>
-          <PaginationLink size="icon" href={buildLink(1)} isActive={page === 1}>
+          <PaginationLink href={buildLink(1)} isActive={page === 1}>
             1
           </PaginationLink>
         </PaginationItem>,
@@ -119,11 +119,7 @@ export function PaginationWithLinks({
       for (let i = start; i <= end; i++) {
         items.push(
           <PaginationItem key={i}>
-            <PaginationLink
-              size="icon"
-              href={buildLink(i)}
-              isActive={page === i}
-            >
+            <PaginationLink href={buildLink(i)} isActive={page === i}>
               {i}
             </PaginationLink>
           </PaginationItem>,
@@ -141,7 +137,6 @@ export function PaginationWithLinks({
       items.push(
         <PaginationItem key={totalPageCount}>
           <PaginationLink
-            size="icon"
             href={buildLink(totalPageCount)}
             isActive={page === totalPageCount}
           >
@@ -169,7 +164,6 @@ export function PaginationWithLinks({
         <PaginationContent className="max-sm:gap-0">
           <PaginationItem>
             <PaginationPrevious
-              size="icon"
               href={buildLink(Math.max(page - 1, 1))}
               aria-disabled={page === 1}
               tabIndex={page === 1 ? -1 : undefined}
@@ -181,7 +175,6 @@ export function PaginationWithLinks({
           {renderPageNumbers()}
           <PaginationItem>
             <PaginationNext
-              size="icon"
               href={buildLink(Math.min(page + 1, totalPageCount))}
               aria-disabled={page === totalPageCount}
               tabIndex={page === totalPageCount ? -1 : undefined}

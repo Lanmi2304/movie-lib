@@ -58,7 +58,7 @@ export async function MovieList({
           <MovieCard
             key={movie.id}
             movie={movie}
-            className="h-80 w-48 lg:h-96 lg:w-60"
+            className="h-80 w-full lg:h-96 lg:w-60"
           />
         ))}
       </div>

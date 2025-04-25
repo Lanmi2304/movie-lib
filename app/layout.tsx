@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/shared/sidebar/app-sidebar";
 import { TailwindIndicator } from "@/components/shared/tailwind-indicator";
+import { Container } from "@/components/shared/container";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,7 +45,7 @@ export default function RootLayout({
                 <SidebarTrigger className="absolute z-50 -ml-1" />
                 {/* <Separator orientation="vertical" className="mr-2 h-4" /> */}
               </header>
-              <div className="flex flex-1 flex-col gap-4 px-4">{children}</div>
+              <Container className="flex flex-1 flex-col">{children}</Container>
             </SidebarInset>
           </SidebarProvider>
         </ThemeProvider>
