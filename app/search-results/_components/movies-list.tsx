@@ -55,7 +55,11 @@ export async function MovieList({
         )}
       >
         {movieList.results.map((movie: Movie) => (
-          <MovieCard key={movie.id} movie={movie} />
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            className="h-80 w-48 lg:h-96 lg:w-60"
+          />
         ))}
       </div>
       <Item pageSize={20} totalCount={movieList.total_results} />

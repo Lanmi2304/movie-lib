@@ -1,5 +1,7 @@
+import PlayTrailer from "@/app/movie-details/[slug]/_components/play-trailler";
+import { options } from "@/app/movie-details/[slug]/page";
 import { categoryTitle } from "@/lib/utils/categories";
-import { Clock, SunSnow, Tv } from "lucide-react";
+import { Star, SunSnow, Tv } from "lucide-react";
 import Image from "next/image";
 
 export default async function Page({
@@ -19,6 +21,16 @@ export default async function Page({
   );
 
   const tvShow = await response.json();
+  const tvShowVideo = await fetch(
+    `https://api.themoviedb.org/3/tv/${tvShow.id}/videos?language=en-US`,
+    options,
+  );
+  // console.log(movie);
+  const showVideo = await tvShowVideo.json();
+  const videoKey: string =
+    showVideo.results.filter(
+      (result: { type: string }) => result.type === "Trailer",
+    )[0]?.key ?? "";
   console.log(tvShow);
 
   const categories = tvShow.genres
@@ -49,27 +61,40 @@ export default async function Page({
             </div>
 
             {/* Details etc..  */}
-            <div className="flex flex-col gap-8">
+            <div className="flex w-3/4 flex-col gap-8">
               <div>
                 <h1 className="text-4xl font-semibold">{tvShow.name}</h1>
                 <p className="text-foreground/80">{categories}</p>
               </div>
 
+              <div className="flex items-center gap-2">
+                <Tv />
+                <p>
+                  Number of episodes:{" "}
+                  <strong>{tvShow.number_of_episodes}</strong>{" "}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <SunSnow />
+                <p>
+                  Number of seasons:{" "}
+                  <strong>{tvShow.number_of_seasons}</strong>{" "}
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Star />
+                <p>{tvShow.vote_average.toFixed(1)}</p>
+              </div>
+
+              <p className="text-lg italic">``{tvShow.tagline ?? ""}``</p>
+
+              <PlayTrailer videoKey={videoKey} />
+
               <div className="flex flex-col gap-2">
-                <div className="flex items-center gap-2">
-                  <Tv />
-                  <p>
-                    Number of episodes:{" "}
-                    <strong>{tvShow.number_of_episodes}</strong>{" "}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2">
-                  <SunSnow />
-                  <p>
-                    Number of seasons:{" "}
-                    <strong>{tvShow.number_of_seasons}</strong>{" "}
-                  </p>
-                </div>
+                <h3 className="text-foreground/60 text-2xl">Overview</h3>
+                <p>{tvShow.overview}</p>
               </div>
             </div>
           </div>

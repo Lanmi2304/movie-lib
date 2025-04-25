@@ -33,7 +33,7 @@ export function MovieCard({
       <div className="group/card">
         <div
           className={cn(
-            "card relative flex h-80 w-48 cursor-pointer flex-col justify-between overflow-hidden rounded-md bg-cover bg-center p-4 shadow-xl lg:h-96 lg:w-60",
+            "card relative flex cursor-pointer flex-col justify-between overflow-hidden rounded-md bg-cover bg-center p-4 shadow-xl",
             className,
           )}
           style={{

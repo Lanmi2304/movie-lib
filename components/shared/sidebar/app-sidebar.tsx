@@ -45,7 +45,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
-    <Sidebar collapsible="icon" {...props} className="relative z-20">
+    <Sidebar collapsible="icon" {...props} className="z-40">
       <SidebarHeader className="bg-background">
         <div className="mt-2">
           <Popcorn />

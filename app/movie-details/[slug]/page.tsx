@@ -1,6 +1,15 @@
 import { categoryTitle } from "@/lib/utils/categories";
-import { Clock } from "lucide-react";
+import { Clock, Star } from "lucide-react";
 import Image from "next/image";
+import PlayTrailer from "./_components/play-trailler";
+
+// TODO: refactor this
+export const options = {
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
+  },
+};
 
 export default async function Page({
   params,
@@ -10,16 +19,20 @@ export default async function Page({
   const { slug } = await params;
   const response = await fetch(
     `https://api.themoviedb.org/3/movie/${slug}?language=en-US`,
-    {
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-      },
-    },
+    options,
   );
 
   const movie = await response.json();
-  console.log(movie);
+  const movieVideoResponse = await fetch(
+    `https://api.themoviedb.org/3/movie/${movie.id}/videos?language=en-US`,
+    options,
+  );
+  // console.log(movie);
+  const movieVideo = await movieVideoResponse.json();
+  const videoKey: string =
+    movieVideo.results.filter(
+      (result: { type: string }) => result.type === "Trailer",
+    )[0]?.key ?? "";
 
   const categories = movie.genres
     .map((gen: { id: number; name: string }) => categoryTitle(gen.id))
@@ -49,7 +62,7 @@ export default async function Page({
             </div>
 
             {/* Details etc..  */}
-            <div className="flex flex-col gap-8">
+            <div className="flex w-3/4 flex-col gap-8">
               <div>
                 <h1 className="text-4xl font-semibold">
                   {movie.title} ({movie.release_date.slice(0, 4)})
@@ -60,6 +73,20 @@ export default async function Page({
               <div className="flex items-center gap-2">
                 <Clock />
                 <p>{movie.runtime} min</p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Star />
+                <p>{movie.vote_average.toFixed(1)}</p>
+              </div>
+
+              <p className="text-lg italic">``{movie.tagline ?? ""}``</p>
+
+              <PlayTrailer videoKey={videoKey} />
+
+              <div className="flex flex-col gap-2">
+                <h3 className="text-foreground/60 text-2xl">Overview</h3>
+                <p>{movie.overview}</p>
               </div>
             </div>
           </div>
