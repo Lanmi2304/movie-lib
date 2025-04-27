@@ -1,4 +1,4 @@
-import { categoryTitle } from "@/lib/utils/categories";
+import { categoryTitleMovie } from "@/lib/utils/categories";
 import { Clock, Star } from "lucide-react";
 import Image from "next/image";
 import PlayTrailer from "./_components/play-trailler";
@@ -20,7 +20,7 @@ export default async function Page({
     `https://api.themoviedb.org/3/movie/${movie.id}/videos?language=en-US`,
     options,
   );
-  // console.log(movie);
+
   const movieVideo = await movieVideoResponse.json();
   const videoKey: string =
     movieVideo.results.filter(
@@ -28,7 +28,7 @@ export default async function Page({
     )[0]?.key ?? "";
 
   const categories = movie.genres
-    .map((gen: { id: number; name: string }) => categoryTitle(gen.id))
+    .map((gen: { id: number; name: string }) => categoryTitleMovie(gen.id))
     .splice(0, 2)
     .join(", ");
 
