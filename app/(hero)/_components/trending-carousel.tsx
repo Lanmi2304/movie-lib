@@ -8,22 +8,25 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-export async function Trending() {
-  const response = await fetch(
-    "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1",
-    {
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-      },
+export async function Trending({
+  title,
+  path,
+}: {
+  title: string;
+  path: string;
+}) {
+  const response = await fetch(path, {
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
     },
-  );
+  });
 
   const movies = await response.json();
 
   return (
-    <div className="relative top-40 w-full rounded-xl bg-black/70 p-4">
-      <h3 className="my-2 text-3xl font-semibold">Popular Movies</h3>
+    <div className="relative w-full rounded-xl bg-black/70 p-4">
+      <h3 className="my-2 text-3xl font-semibold">{title}</h3>
       {movies.length === 0 ? (
         <p>No movies found</p>
       ) : (

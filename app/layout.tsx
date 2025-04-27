@@ -24,6 +24,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOutItem } from "@/components/shared/sidebar/_components/logut-dropdown-item";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Container } from "@/components/shared/container";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -59,7 +60,7 @@ export default async function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark">
           <SidebarProvider>
             <AppSidebar user={session?.user} />
-            <SidebarInset className="w-full overflow-x-hidden bg-transparent">
+            <SidebarInset className="w-full overflow-hidden bg-transparent">
               <div className="fixed top-0 z-[-2] h-full w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(60,60,120,0.5),rgba(0,0,0,0))]"></div>
               <header className="bg-background/90 sticky top-0 z-30 flex h-16 w-full shrink-0 items-center justify-between gap-2 border-b px-4 backdrop-blur-md">
                 <SidebarTrigger />
@@ -112,7 +113,9 @@ export default async function RootLayout({
                   </DropdownMenu>
                 )}
               </header>
-              <div className="mb-0 size-full px-4">{children}</div>
+              <Container className="mx-auto mb-0 size-full px-4">
+                {children}
+              </Container>
             </SidebarInset>
           </SidebarProvider>
         </ThemeProvider>

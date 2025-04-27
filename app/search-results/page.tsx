@@ -30,6 +30,8 @@ export type Movie = {
   video: boolean;
   vote_average: number;
   vote_count: number;
+  name: string;
+  original_name: string;
   media_type: string;
 };
 

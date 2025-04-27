@@ -1,4 +1,4 @@
-import { categoryTitle } from "@/lib/utils/categories";
+import { categoryTitleMovie, categoryTitleShow } from "@/lib/utils/categories";
 import { Movie } from "../page";
 import { cn } from "@/lib/utils/cn";
 import { Star } from "lucide-react";
@@ -15,10 +15,18 @@ export function MovieCard({
     ? `https://image.tmdb.org/t/p/original/${movie.poster_path}`
     : "/images/posterless.jpg";
 
-  const categories =
+  const categoriesMovie =
     movie.genre_ids !== undefined
       ? movie.genre_ids
-          .map((id) => categoryTitle(id))
+          .map((id) => categoryTitleMovie(id))
+          .splice(0, 2)
+          .join(", ")
+      : "Category";
+
+  const categoriesShow =
+    movie.genre_ids !== undefined
+      ? movie.genre_ids
+          .map((id) => categoryTitleShow(id))
           .splice(0, 2)
           .join(", ")
       : "Category";
@@ -44,7 +52,7 @@ export function MovieCard({
           <div className="z-10 hidden flex-row items-center space-x-4 group-hover/card:flex">
             <div className="flex flex-col">
               <p className="relative z-10 text-base font-normal text-gray-50">
-                {categories}
+                {mediaType ? categoriesShow : categoriesMovie}
               </p>
               <div className="flex items-center gap-1 text-sm text-gray-400">
                 <Star className="size-4" />
@@ -54,7 +62,7 @@ export function MovieCard({
           </div>
           <div className="text content hidden group-hover/card:block">
             <h1 className="relative z-10 text-xl font-bold text-gray-50 md:text-2xl">
-              {movie.title}
+              {movie.title ?? movie.name}
             </h1>
             <p className="relative z-10 my-4 line-clamp-3 text-sm font-normal text-gray-50">
               {movie.overview}

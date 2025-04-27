@@ -1,7 +1,7 @@
 import PlayTrailer from "@/app/movie-details/[slug]/_components/play-trailler";
 import { options } from "@/lib/configs/auth-options";
 
-import { categoryTitle } from "@/lib/utils/categories";
+import { categoryTitleShow } from "@/lib/utils/categories";
 import { Star, SunSnow, Tv } from "lucide-react";
 import Image from "next/image";
 
@@ -35,7 +35,7 @@ export default async function Page({
   console.log(tvShow);
 
   const categories = tvShow.genres
-    .map((gen: { id: number; name: string }) => categoryTitle(gen.id))
+    .map((gen: { id: number; name: string }) => categoryTitleShow(gen.id))
     .splice(0, 2)
     .join(", ");
 

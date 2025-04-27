@@ -1,64 +1,83 @@
-export const categoryTitle = (categoryId: number) => {
+export const categoryTitleMovie = (categoryId: number) => {
   switch (categoryId) {
     case 28:
       return "Action";
-      break;
     case 12:
       return "Adventure";
-      break;
     case 16:
       return "Animation";
-      break;
     case 35:
       return "Comedy";
-      break;
     case 80:
       return "Crime";
-      break;
     case 99:
       return "Documentary";
-      break;
     case 18:
       return "Drama";
-      break;
     case 10751:
       return "Family";
-      break;
     case 14:
       return "Fantasy";
-      break;
     case 36:
       return "History";
-      break;
     case 27:
       return "Horror";
-      break;
     case 10402:
       return "Music";
-      break;
     case 9648:
       return "Mystery";
-      break;
     case 10749:
       return "Romance";
-      break;
     case 878:
       return "Science Fiction";
-      break;
     case 10770:
       return "TV Movie";
-      break;
     case 53:
       return "Thriller";
-      break;
     case 10752:
       return "War";
-      break;
     case 37:
       return "Western";
-      break;
     default:
       return "Unknown category";
-      break;
+  }
+};
+
+export const categoryTitleShow = (categoryId: number) => {
+  switch (categoryId) {
+    case 10759:
+      return "Action & Adventure";
+    case 16:
+      return "Animation";
+    case 35:
+      return "Comedy";
+    case 80:
+      return "Crime";
+    case 99:
+      return "Documentary";
+    case 18:
+      return "Drama";
+    case 10751:
+      return "Family";
+    case 10762:
+      return "Kids";
+    case 9648:
+      return "Mystery";
+    case 10763:
+      return "News";
+    case 10764:
+      return "Reality";
+    case 10765:
+      return "Sci-Fi & Fantasy";
+    case 10766:
+      return "Soap";
+    case 10767:
+      return "Talk";
+    case 10768:
+      return "War & Politics";
+    case 37:
+      return "Western";
+    default:
+      return "Unknown category";
   }
 };

@@ -13,7 +13,7 @@ export default function LoginPage() {
         />
       </div>
 
-      <div className="z-20 w-full max-w-lg rounded-lg p-6 backdrop-blur-md">
+      <div className="z-20 w-full max-w-lg rounded-lg p-6 backdrop-blur-sm">
         <LoginForm />
       </div>
     </div>
