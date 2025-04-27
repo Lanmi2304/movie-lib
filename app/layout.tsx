@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/shared/sidebar/app-sidebar";
 import { TailwindIndicator } from "@/components/shared/tailwind-indicator";
-import { Container } from "@/components/shared/container";
+
 import { auth } from "@/server/auth";
 import { headers } from "next/headers";
 
@@ -53,9 +53,7 @@ export default async function RootLayout({
                 <SidebarTrigger className="absolute z-50 -ml-1" />
                 {/* <Separator orientation="vertical" className="mr-2 h-4" /> */}
               </header>
-              <Container className="mb-0 flex w-full flex-1 flex-col">
-                {children}
-              </Container>
+              <div className="mb-0 size-full px-4">{children}</div>
             </SidebarInset>
           </SidebarProvider>
         </ThemeProvider>

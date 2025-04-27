@@ -13,7 +13,7 @@ export function MovieCard({
 }) {
   const poster = movie.poster_path
     ? `https://image.tmdb.org/t/p/original/${movie.poster_path}`
-    : "https://lh3.googleusercontent.com/proxy/rnI3_En64EP7f3eLxeUK59zazrOt3DPuEhk8NOfOY_jdK7VbA7ucKFfwPTqdi_wFZCDyEWJ7hDnZq6D-94CPn7Qlp3A8tmPuWmJZf4aO3kbPtBnKfwVtZw";
+    : "/images/posterless.jpg";
 
   const categories =
     movie.genre_ids !== undefined
