@@ -7,8 +7,10 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 export function NavMain({
   items,
@@ -24,12 +26,20 @@ export function NavMain({
     }[];
   }[];
 }) {
+  const { setOpenMobile } = useSidebar();
+  const isMobile = useIsMobile();
   return (
     <SidebarGroup>
       <SidebarMenu>
         <SidebarMenuItem>
           <Link href="/">
-            <SidebarMenuButton tooltip="Home" className="cursor-pointer">
+            <SidebarMenuButton
+              tooltip="Home"
+              className="cursor-pointer"
+              onClick={() => {
+                if (isMobile) setOpenMobile(false);
+              }}
+            >
               <Home />
               Home
             </SidebarMenuButton>
@@ -37,7 +47,13 @@ export function NavMain({
         </SidebarMenuItem>
         {items.map((item) => (
           <SidebarMenuItem key={item.title}>
-            <SidebarMenuButton tooltip={item.title} className="cursor-pointer">
+            <SidebarMenuButton
+              tooltip={item.title}
+              className="cursor-pointer"
+              onClick={() => {
+                if (isMobile) setOpenMobile(false);
+              }}
+            >
               {item.icon && <item.icon />}
               <span>{item.title}</span>
             </SidebarMenuButton>

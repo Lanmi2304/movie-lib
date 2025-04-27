@@ -20,11 +20,13 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 import Link from "next/link";
 import { User as UserType } from "better-auth";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // This is sample data.
 const data = {
@@ -54,7 +56,6 @@ const data = {
   ],
 };
 
-// TODO: refactor user type
 export function AppSidebar({
   user,
   ...props
@@ -63,6 +64,8 @@ export function AppSidebar({
 
   props?: React.ComponentProps<typeof Sidebar>;
 }) {
+  const { setOpenMobile } = useSidebar();
+  const isMobile = useIsMobile();
   return (
     <Sidebar collapsible="icon" {...props} className="z-40">
       <SidebarHeader className="bg-background/90">
@@ -80,7 +83,13 @@ export function AppSidebar({
             <SidebarMenu>
               <SidebarMenuItem>
                 <Link href="/">
-                  <SidebarMenuButton tooltip="Home" className="cursor-pointer">
+                  <SidebarMenuButton
+                    tooltip="Home"
+                    className="cursor-pointer"
+                    onClick={() => {
+                      if (isMobile) setOpenMobile(false);
+                    }}
+                  >
                     <Home />
                     Home
                   </SidebarMenuButton>
@@ -91,6 +100,9 @@ export function AppSidebar({
                   <SidebarMenuButton
                     tooltip="Sign in"
                     className="cursor-pointer"
+                    onClick={() => {
+                      if (isMobile) setOpenMobile(false);
+                    }}
                   >
                     <User />
                     Sign in
