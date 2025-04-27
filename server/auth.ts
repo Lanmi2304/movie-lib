@@ -16,5 +16,6 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
     },
   },
+  trustedOrigins: ["https://movie-lib-two.vercel.app", "http://localhost:3000"],
   plugins: [nextCookies()],
 });
