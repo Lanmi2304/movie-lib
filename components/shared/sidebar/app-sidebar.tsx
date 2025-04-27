@@ -21,11 +21,10 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
-
 import { NavMain } from "./nav-main";
-
 import { NavUser } from "./nav-user";
 import Link from "next/link";
+import { User as UserType } from "better-auth";
 
 // This is sample data.
 const data = {
@@ -60,32 +59,23 @@ export function AppSidebar({
   user,
   ...props
 }: {
-  user:
-    | {
-        id: string;
-        name: string;
-        email: string;
-        emailVerified: boolean;
-        createdAt: Date;
-        updatedAt: Date;
-        image?: string | null | undefined | undefined;
-      }
-    | undefined;
+  user?: UserType;
+
   props?: React.ComponentProps<typeof Sidebar>;
 }) {
   return (
     <Sidebar collapsible="icon" {...props} className="z-40">
-      <SidebarHeader className="bg-background">
+      <SidebarHeader className="bg-background/90">
         <div className="mt-2">
           <Popcorn />
         </div>
       </SidebarHeader>
       {user ? (
-        <SidebarContent className="bg-background">
+        <SidebarContent className="bg-background/90">
           <NavMain items={data.navMain} />
         </SidebarContent>
       ) : (
-        <SidebarContent className="bg-background">
+        <SidebarContent className="bg-background/90">
           <SidebarGroup>
             <SidebarMenu>
               <SidebarMenuItem>
@@ -112,9 +102,11 @@ export function AppSidebar({
         </SidebarContent>
       )}
 
-      <SidebarFooter className="bg-background">
-        <NavUser user={data.user} />
-      </SidebarFooter>
+      {user ? (
+        <SidebarFooter className="bg-background/90">
+          <NavUser user={user} />
+        </SidebarFooter>
+      ) : null}
       <SidebarRail />
     </Sidebar>
   );

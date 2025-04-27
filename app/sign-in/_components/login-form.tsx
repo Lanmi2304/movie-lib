@@ -1,6 +1,6 @@
 "use client";
 
-import { GalleryVerticalEnd } from "lucide-react";
+import { Popcorn } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
@@ -26,9 +26,9 @@ export function LoginForm({
               className="flex flex-col items-center gap-2 font-medium"
             >
               <div className="flex h-8 w-8 items-center justify-center rounded-md">
-                <GalleryVerticalEnd className="size-6" />
+                <Popcorn className="size-8" />
               </div>
-              <span className="sr-only">Acme Inc.</span>
+              <span className="sr-only">Movie lib</span>
             </a>
             <h1 className="text-xl font-bold">Welcome to Movie Lib</h1>
             <div className="text-center text-sm">
@@ -50,7 +50,7 @@ export function LoginForm({
           </Button>
         </div>
       </form>
-      <div className="text-muted-foreground hover:[&_a]:text-primary text-center text-xs text-balance [&_a]:underline [&_a]:underline-offset-4">
+      <div className="text-foreground hover:[&_a]:text-primary text-center text-xs text-balance [&_a]:underline [&_a]:underline-offset-4">
         By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
         and <a href="#">Privacy Policy</a>.
       </div>

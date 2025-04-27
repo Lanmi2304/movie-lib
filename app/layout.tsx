@@ -47,13 +47,15 @@ export default async function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark">
           <SidebarProvider>
             <AppSidebar user={session?.user} />
-            <SidebarInset className="bg-transparent">
+            <SidebarInset className="w-full bg-transparent">
               <div className="fixed top-0 z-[-2] h-full w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(60,60,120,0.5),rgba(0,0,0,0))]"></div>
-              <header className="bg-background sticky top-0 z-30 flex h-16 shrink-0 items-center gap-2 border-b px-4">
+              <header className="bg-background/90 sticky top-0 z-30 flex h-16 shrink-0 items-center gap-2 border-b px-4">
                 <SidebarTrigger className="absolute z-50 -ml-1" />
                 {/* <Separator orientation="vertical" className="mr-2 h-4" /> */}
               </header>
-              <Container className="flex flex-1 flex-col">{children}</Container>
+              <Container className="mb-0 flex w-full flex-1 flex-col">
+                {children}
+              </Container>
             </SidebarInset>
           </SidebarProvider>
         </ThemeProvider>

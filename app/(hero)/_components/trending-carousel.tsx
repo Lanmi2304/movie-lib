@@ -23,7 +23,7 @@ export async function Trending() {
 
   return (
     <div className="relative top-40 w-full rounded-xl bg-black/70 p-4">
-      <h3 className="text-3xl font-semibold">Popular</h3>
+      <h3 className="my-2 text-3xl font-semibold">Popular Movies</h3>
       {movies.length === 0 ? (
         <p>No movies found</p>
       ) : (
