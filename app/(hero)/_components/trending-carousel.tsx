@@ -28,7 +28,7 @@ export async function Trending() {
         <p>No movies found</p>
       ) : (
         <Carousel className="w-full" opts={{ loop: true, dragFree: true }}>
-          <CarouselContent className="relative -ml-1 flex">
+          <CarouselContent>
             {movies.results.map((movie: Movie) => (
               <CarouselItem
                 key={crypto.randomUUID()}
