@@ -1,24 +1,7 @@
 import Item from "@/app/(hero)/_components/item";
 import { MovieCard } from "./movie-card";
 import { cn } from "@/lib/utils/cn";
-
-export type Movie = {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
-  id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-  media_type: string;
-};
+import { Movie } from "../page";
 
 export async function MovieList({
   searchTerm,
