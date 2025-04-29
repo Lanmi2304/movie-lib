@@ -31,6 +31,9 @@ export type Movie = {
   vote_average: number;
   vote_count: number;
   name: string;
+  genres: { id: number; name: string }[];
+  runtime: string;
+  tagline: string;
   original_name: string;
   media_type: string;
 };

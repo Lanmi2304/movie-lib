@@ -2,7 +2,13 @@ import { categoryTitleMovie } from "@/lib/utils/categories";
 import { Clock, Star } from "lucide-react";
 import Image from "next/image";
 import PlayTrailer from "./_components/play-trailler";
-import { options } from "@/lib/configs/auth-options";
+import { MovieActions } from "./_components/movie-actions";
+import { db } from "@/server/db";
+import { favoritesMovies } from "@/server/db/auth-schema";
+import { and, eq } from "drizzle-orm";
+import { fetchMovieDetails, fetchMovieTrailer } from "@/lib/api/movie";
+import { auth } from "@/server/auth";
+import { headers } from "next/headers";
 
 export default async function Page({
   params,
@@ -10,22 +16,29 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const response = await fetch(
-    `https://api.themoviedb.org/3/movie/${slug}?language=en-US`,
-    options,
-  );
 
-  const movie = await response.json();
-  const movieVideoResponse = await fetch(
-    `https://api.themoviedb.org/3/movie/${movie.id}/videos?language=en-US`,
-    options,
-  );
+  const movie = await fetchMovieDetails(slug);
+  const movieTrailer = await fetchMovieTrailer(movie.id);
+  const session = await auth.api.getSession({ headers: await headers() });
 
-  const movieVideo = await movieVideoResponse.json();
-  const videoKey: string =
-    movieVideo.results.filter(
-      (result: { type: string }) => result.type === "Trailer",
-    )[0]?.key ?? "";
+  const userId = session?.user?.id;
+
+  let isFavorite = false;
+
+  if (userId) {
+    const favorite = await db
+      .select()
+      .from(favoritesMovies)
+      .where(
+        and(
+          eq(favoritesMovies.movieId, movie.id),
+          eq(favoritesMovies.userId, userId),
+        ),
+      )
+      .limit(1);
+
+    isFavorite = favorite.length > 0;
+  }
 
   const categories = movie.genres
     .map((gen: { id: number; name: string }) => categoryTitleMovie(gen.id))
@@ -55,7 +68,7 @@ export default async function Page({
             </div>
 
             {/* Details etc..  */}
-            <div className="flex w-full flex-col gap-8 lg:w-3/4">
+            <div className="relative flex w-full flex-col gap-8 lg:w-3/4">
               <div>
                 <h1 className="text-4xl font-semibold">
                   {movie.title} ({movie.release_date.slice(0, 4)})
@@ -75,7 +88,9 @@ export default async function Page({
 
               <p className="text-lg italic">``{movie.tagline ?? ""}``</p>
 
-              <PlayTrailer videoKey={videoKey} />
+              <PlayTrailer videoKey={movieTrailer} />
+
+              <MovieActions movie={movie} isFavorite={isFavorite} />
 
               <div className="flex flex-col gap-2">
                 <h3 className="text-foreground/60 text-2xl">Overview</h3>
