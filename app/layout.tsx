@@ -25,6 +25,7 @@ import { LogOutItem } from "@/components/shared/sidebar/_components/logut-dropdo
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Container } from "@/components/shared/container";
+import { Toaster } from "@/components/ui/sooner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -58,6 +59,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="dark">
+          <Toaster position="top-center" />
           <SidebarProvider>
             <AppSidebar user={session?.user} />
             <SidebarInset className="w-full overflow-hidden bg-transparent">

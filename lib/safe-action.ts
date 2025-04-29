@@ -22,7 +22,7 @@ const actionClient = createSafeActionClient({
       return e.message;
     }
 
-    return DEFAULT_SERVER_ERROR_MESSAGE;
+    return e.message ?? DEFAULT_SERVER_ERROR_MESSAGE;
   },
   // Define logging middleware.
 }).use(async ({ next, clientInput, metadata }) => {

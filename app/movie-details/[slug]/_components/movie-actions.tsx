@@ -12,6 +12,7 @@ import {
 import { Bookmark, Heart, List } from "lucide-react";
 import { addToFavoritesAction } from "../_actions/add-to-favorites.action";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 export function MovieActions({
   movie,
@@ -26,13 +27,23 @@ export function MovieActions({
   const toggleFavoriteHandler = () => {
     setIsFavorite((prev) => !prev);
 
-    startTransition(() => {
-      addToFavoritesAction({
-        type: "movie",
-        movieId: movie.id,
-      }).catch(() => {
-        setIsFavorite((prev) => !prev);
-      });
+    startTransition(async () => {
+      try {
+        const res = await addToFavoritesAction({
+          type: "movie",
+          movieId: movie.id,
+        });
+
+        if (res?.serverError) throw new Error(res.serverError);
+      } catch (error) {
+        console.log(
+          error instanceof Error ? error.message : "Unknown error occurred!",
+        );
+        toast.error(
+          error instanceof Error ? error.message : "Unknown error occurred!",
+        );
+        setIsFavorite(false);
+      }
     });
   };
 
