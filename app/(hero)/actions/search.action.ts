@@ -1,9 +1,10 @@
 "use server";
 
-import { actionClient } from "@/lib/utils/safe-action";
+import { authActionClient } from "@/lib/safe-action";
 import { searchSchema } from "../_schemas/search.schema";
 
-export const searchAction = actionClient
+export const searchAction = authActionClient
+  .metadata({ actionName: "searchAction" })
   .schema(searchSchema)
   .action(async ({ parsedInput: { term } }) => {
     const res = await fetch(
@@ -13,7 +14,7 @@ export const searchAction = actionClient
           accept: "application/json",
           Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
         },
-      }
+      },
     );
 
     if (!res.ok)
