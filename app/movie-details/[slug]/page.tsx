@@ -97,12 +97,16 @@ export default async function Page({
                 movie={{ media_type: mediaType, ...movie }}
                 isFavorite={isFavorite}
               />
-
-              <div className="flex flex-col gap-2">
-                <h3 className="text-foreground/60 text-2xl">Overview</h3>
-                <p>{movie.overview}</p>
-              </div>
             </div>
+          </div>
+          <div className="mt-2 flex flex-col gap-4">
+            <div>
+              <h3 className="text-foreground/60 text-2xl">Overview</h3>
+              <p>{movie.overview}</p>
+            </div>
+
+            <h3 className="text-foreground/60 text-2xl">Casts</h3>
+            <div></div>
           </div>
         </div>
       </div>
