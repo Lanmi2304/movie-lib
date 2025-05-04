@@ -38,7 +38,11 @@ export function MovieActions({
         });
 
         if (res?.serverError) throw new Error(res.serverError);
-        toast.success("Successfully added to favorites!");
+        toast.success(
+          isFavorite
+            ? "Successfully removed from favorites!"
+            : "Successfully added to favorites!",
+        );
       } catch (error) {
         console.log(
           error instanceof Error ? error.message : "Unknown error occurred!",
