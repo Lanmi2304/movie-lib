@@ -5,6 +5,7 @@ import {
   boolean,
   serial,
   integer,
+  real,
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
@@ -62,7 +63,10 @@ export const favoritesMovies = pgTable("favorites-movies", {
   userId: text("user_id")
     .notNull()
     .references(() => user.id, { onDelete: "cascade" }),
-  type: text("type"),
-  movieId: integer("movie_id"),
-  createdAt: timestamp("created_at"),
+  mediaType: text("media_type").notNull(),
+  movieId: integer("movie_id").notNull(),
+  title: text("title").notNull(),
+  voteAverage: real("vote_average").notNull(),
+  posterPath: text("poster_path").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
 });

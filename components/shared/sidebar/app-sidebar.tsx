@@ -50,7 +50,7 @@ const data = {
     },
     {
       title: "Favorites",
-      url: "#",
+      url: "/favorites",
       icon: Heart,
     },
   ],

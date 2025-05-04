@@ -3,9 +3,12 @@ import { favoritesMovies } from "@/server/db/auth-schema";
 import { and, eq } from "drizzle-orm";
 
 export async function toggleFavorite(movie: {
-  type: string;
+  mediaType: string;
   movieId: number;
   userId: string;
+  posterPath: string;
+  title: string;
+  voteAverage: number;
 }) {
   const existingFavorite = await db
     .select()

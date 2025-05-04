@@ -7,14 +7,28 @@ export async function middleware(request: NextRequest) {
     headers: await headers(),
   });
 
+  const url = new URL(request.url);
+
   if (!session) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
-  return NextResponse.next();
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-path", url.pathname);
+
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
 }
 
 export const config = {
   runtime: "nodejs",
-  matcher: ["/dashboard"], // Apply middleware to specific routes
+  matcher: [
+    "/dashboard",
+    "/favorites",
+    "/movie-details/:path*",
+    "/tv-show-details/:path*",
+  ], // Apply middleware to specific routes
 };

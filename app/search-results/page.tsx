@@ -16,26 +16,26 @@ type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 // }
 
 export type Movie = {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
+  adult?: boolean;
+  backdrop_path?: string;
+  genre_ids?: number[];
   id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
+  original_language?: string;
+  original_title?: string;
+  overview?: string;
+  popularity?: number;
   poster_path: string;
-  release_date: string;
+  release_date?: string;
   title: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
-  name: string;
-  genres: { id: number; name: string }[];
-  runtime: string;
-  tagline: string;
-  original_name: string;
-  media_type: string;
+  video?: boolean;
+  vote_average?: number;
+  vote_count?: number;
+  name?: string;
+  genres?: { id: number; name: string }[];
+  runtime?: string;
+  tagline?: string;
+  original_name?: string;
+  media_type?: string;
 };
 
 export default async function Page(props: {

@@ -59,7 +59,7 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="dark">
-          <Toaster position="top-center" />
+          <Toaster position="top-center" richColors />
           <SidebarProvider>
             <AppSidebar user={session?.user} />
             <SidebarInset className="w-full overflow-hidden bg-transparent">

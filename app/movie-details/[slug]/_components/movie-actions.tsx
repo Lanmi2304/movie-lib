@@ -30,11 +30,15 @@ export function MovieActions({
     startTransition(async () => {
       try {
         const res = await addToFavoritesAction({
-          type: "movie",
+          mediaType: movie.media_type ?? "",
           movieId: movie.id,
+          title: movie.title ?? movie.name,
+          posterPath: movie.poster_path,
+          voteAverage: movie.vote_average ?? 0,
         });
 
         if (res?.serverError) throw new Error(res.serverError);
+        toast.success("Successfully added to favorites!");
       } catch (error) {
         console.log(
           error instanceof Error ? error.message : "Unknown error occurred!",

@@ -1,8 +1,14 @@
+import { MovieActions } from "@/app/movie-details/[slug]/_components/movie-actions";
 import PlayTrailer from "@/app/movie-details/[slug]/_components/play-trailler";
 import { options } from "@/lib/configs/auth-options";
 
 import { categoryTitleShow } from "@/lib/utils/categories";
+import { auth } from "@/server/auth";
+import { db } from "@/server/db";
+import { favoritesMovies } from "@/server/db/auth-schema";
+import { and, eq } from "drizzle-orm";
 import { Star, SunSnow, Tv } from "lucide-react";
+import { headers } from "next/headers";
 import Image from "next/image";
 
 export default async function Page({
@@ -34,10 +40,35 @@ export default async function Page({
     )[0]?.key ?? "";
   console.log(tvShow);
 
+  const session = await auth.api.getSession({ headers: await headers() });
+
+  const userId = session?.user?.id;
+
+  let isFavorite = false;
+
+  if (userId) {
+    const favorite = await db
+      .select()
+      .from(favoritesMovies)
+      .where(
+        and(
+          eq(favoritesMovies.movieId, tvShow.id),
+          eq(favoritesMovies.userId, userId),
+        ),
+      )
+      .limit(1);
+
+    isFavorite = favorite.length > 0;
+  }
+
   const categories = tvShow.genres
     .map((gen: { id: number; name: string }) => categoryTitleShow(gen.id))
     .splice(0, 2)
     .join(", ");
+
+  const pathName = (await headers()).get("x-path");
+  const mediaType = pathName?.startsWith("/m") ? "movie" : "tv";
+  console.log(mediaType);
 
   return (
     <div className="flex w-full items-center justify-center">
@@ -62,7 +93,7 @@ export default async function Page({
             </div>
 
             {/* Details etc..  */}
-            <div className="flex w-full flex-col gap-8 lg:w-3/4">
+            <div className="relative flex w-full flex-col gap-8 lg:w-3/4">
               <div>
                 <h1 className="text-4xl font-semibold">{tvShow.name}</h1>
                 <p className="text-foreground/80">{categories}</p>
@@ -92,6 +123,11 @@ export default async function Page({
               <p className="text-lg italic">``{tvShow.tagline ?? ""}``</p>
 
               <PlayTrailer videoKey={videoKey} />
+
+              <MovieActions
+                movie={{ media_type: mediaType, ...tvShow }}
+                isFavorite={isFavorite}
+              />
 
               <div className="flex flex-col gap-2">
                 <h3 className="text-foreground/60 text-2xl">Overview</h3>

@@ -53,9 +53,12 @@ export function NavMain({
               onClick={() => {
                 if (isMobile) setOpenMobile(false);
               }}
+              asChild
             >
-              {item.icon && <item.icon />}
-              <span>{item.title}</span>
+              <Link href={item.url}>
+                {item.icon && <item.icon />}
+                <span>{item.title}</span>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}
