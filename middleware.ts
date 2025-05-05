@@ -31,6 +31,7 @@ const middlewares = {
   "/favorites": [async (request) => authMiddleware(request)],
   "/dashboard": [async (request) => authMiddleware(request)], // Do I need this?
   "/movie-details/:path*": [async (request) => getPathMiddleware(request)],
+  "/tv-show-details/:path*": [async (request) => getPathMiddleware(request)],
 } satisfies MiddlewareConfig;
 
 export const middleware = createNEMO(middlewares);
