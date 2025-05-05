@@ -1,4 +1,4 @@
-import { options } from "../configs/auth-options";
+import { options } from "../../../../lib/configs/auth-options";
 
 export async function fetchMovieDetails(id: string) {
   const res = await fetch(

@@ -6,9 +6,13 @@ import { MovieActions } from "../../_components/movie-actions";
 import { db } from "@/server/db";
 import { favoritesMovies } from "@/server/db/auth-schema";
 import { and, eq } from "drizzle-orm";
-import { fetchMovieDetails, fetchMovieTrailer } from "@/lib/api/movie";
+import {
+  fetchMovieDetails,
+  fetchMovieTrailer,
+} from "@/app/(info-page)/movie-details/_api/movie";
 import { auth } from "@/server/auth";
 import { headers } from "next/headers";
+import { getMovieProviders } from "../_api/get-providers";
 
 export default async function Page({
   params,
@@ -19,11 +23,15 @@ export default async function Page({
 
   const movie = await fetchMovieDetails(slug);
   const movieTrailer = await fetchMovieTrailer(movie.id);
+  const movieProviders = await getMovieProviders(movie.id);
   const session = await auth.api.getSession({ headers: await headers() });
 
   const userId = session?.user?.id;
 
   let isFavorite = false;
+
+  const { RS } = movieProviders.results;
+  console.log(222, RS?.flatrate);
 
   if (userId) {
     const favorite = await db
@@ -91,6 +99,33 @@ export default async function Page({
               <PlayTrailer videoKey={movieTrailer} />
 
               <MovieActions movie={movie} isFavorite={isFavorite} />
+
+              <div>
+                <h3>
+                  Where to watch <span>(Serbia)</span>
+                </h3>
+                {RS?.flatrate.length > 0 ? (
+                  RS?.flatrate.map(
+                    (
+                      el: { provider_name: string; logo_path: string },
+                      idx: number,
+                    ) => (
+                      <div key={idx} className="flex items-center gap-2 py-1">
+                        <Image
+                          src={`https://image.tmdb.org/t/p/original${el.logo_path}`}
+                          alt={`${el.provider_name} logo`}
+                          width={30}
+                          height={30}
+                          className="rounded-lg"
+                        />
+                        <p>{el.provider_name}</p>
+                      </div>
+                    ),
+                  )
+                ) : (
+                  <p className="text-red-300">Unavailable</p>
+                )}
+              </div>
             </div>
           </div>
         </div>
