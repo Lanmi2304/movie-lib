@@ -1,8 +1,8 @@
 import { categoryTitleMovie } from "@/lib/utils/categories";
 import { Clock, Star } from "lucide-react";
 import Image from "next/image";
-import PlayTrailer from "./_components/play-trailler";
-import { MovieActions } from "./_components/movie-actions";
+import PlayTrailer from "../../_components/play-trailler";
+import { MovieActions } from "../../_components/movie-actions";
 import { db } from "@/server/db";
 import { favoritesMovies } from "@/server/db/auth-schema";
 import { and, eq } from "drizzle-orm";

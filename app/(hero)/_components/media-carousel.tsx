@@ -1,4 +1,4 @@
-import { MovieCard } from "@/app/search-results/_components/movie-card";
+import { MediaCard } from "@/app/search-results/_components/movie-card";
 import { Movie } from "@/app/search-results/page";
 import {
   Carousel,
@@ -8,7 +8,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-export async function Trending({
+export async function MediaCarousel({
   title,
   path,
 }: {
@@ -38,7 +38,7 @@ export async function Trending({
                 className="mx-0 basis-1/2 pl-1 sm:basis-1/3 md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
               >
                 <div className="p-1">
-                  <MovieCard movie={movie} className="h-80 w-full lg:h-96" />
+                  <MediaCard movie={movie} className="h-80 w-full lg:h-96" />
                 </div>
               </CarouselItem>
             ))}

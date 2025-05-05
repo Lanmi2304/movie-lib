@@ -1,5 +1,5 @@
-import { getFavoritesList } from "@/app/movie-details/[slug]/_repositories/get-favorites.repository";
-import { MovieCard } from "@/app/search-results/_components/movie-card";
+import { getFavoritesList } from "@/app/(info-page)/_repositories/get-favorites.repository";
+import { MediaCard } from "@/app/search-results/_components/movie-card";
 import { Telescope } from "lucide-react";
 
 export default async function Favorites() {
@@ -26,7 +26,7 @@ export default async function Favorites() {
       {favorites?.length && favorites.length > 0 && (
         <div className="mt-10 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
           {favorites?.map((movie) => (
-            <MovieCard
+            <MediaCard
               key={movie.id}
               className="h-80 lg:h-96"
               movie={{

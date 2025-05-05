@@ -1,5 +1,5 @@
-import { MovieActions } from "@/app/movie-details/[slug]/_components/movie-actions";
-import PlayTrailer from "@/app/movie-details/[slug]/_components/play-trailler";
+import { MovieActions } from "@/app/(info-page)/_components/movie-actions";
+import PlayTrailer from "@/app/(info-page)/_components/play-trailler";
 import { options } from "@/lib/configs/auth-options";
 
 import { categoryTitleShow } from "@/lib/utils/categories";

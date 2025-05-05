@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils/cn";
 import { Star } from "lucide-react";
 import Link from "next/link";
 
-export function MovieCard({
+export function MediaCard({
   movie,
   className,
 }: {

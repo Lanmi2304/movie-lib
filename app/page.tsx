@@ -1,5 +1,5 @@
 import { Search } from "./(hero)/_components/search";
-import { Trending } from "./(hero)/_components/trending-carousel";
+import { MediaCarousel } from "./(hero)/_components/media-carousel";
 
 export default function Page() {
   return (
@@ -13,11 +13,11 @@ export default function Page() {
       </div>
 
       <div className="mt-10 flex w-full flex-col gap-4 lg:mt-40">
-        <Trending
+        <MediaCarousel
           title="Popular Movies"
           path="https://api.themoviedb.org/3/movie/popular?language=en-US&page=1"
         />
-        <Trending
+        <MediaCarousel
           title="Trending series this week"
           path="https://api.themoviedb.org/3/trending/tv/week?language=en-US"
         />

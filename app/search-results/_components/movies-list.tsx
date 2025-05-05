@@ -1,5 +1,5 @@
 import Item from "@/app/(hero)/_components/item";
-import { MovieCard } from "./movie-card";
+import { MediaCard } from "./movie-card";
 import { cn } from "@/lib/utils/cn";
 import { Movie } from "../page";
 
@@ -45,7 +45,7 @@ export async function MovieList({
           )}
         >
           {movieList.results.map((movie: Movie) => (
-            <MovieCard
+            <MediaCard
               key={movie.id}
               movie={movie}
               className="h-80 w-full lg:h-96 lg:w-60"
