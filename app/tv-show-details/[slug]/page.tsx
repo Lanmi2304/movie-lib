@@ -32,7 +32,7 @@ export default async function Page({
     `https://api.themoviedb.org/3/tv/${tvShow.id}/videos?language=en-US`,
     options,
   );
-  // console.log(movie);
+
   const showVideo = await tvShowVideo.json();
   const videoKey: string =
     showVideo.results.filter(
@@ -65,10 +65,6 @@ export default async function Page({
     .map((gen: { id: number; name: string }) => categoryTitleShow(gen.id))
     .splice(0, 2)
     .join(", ");
-
-  const pathName = (await headers()).get("x-path");
-  const mediaType = pathName?.startsWith("/m") ? "movie" : "tv";
-  console.log(mediaType);
 
   return (
     <div className="flex w-full items-center justify-center">
@@ -124,10 +120,7 @@ export default async function Page({
 
               <PlayTrailer videoKey={videoKey} />
 
-              <MovieActions
-                movie={{ media_type: mediaType, ...tvShow }}
-                isFavorite={isFavorite}
-              />
+              <MovieActions movie={tvShow} isFavorite={isFavorite} />
 
               <div className="flex flex-col gap-2">
                 <h3 className="text-foreground/60 text-2xl">Overview</h3>

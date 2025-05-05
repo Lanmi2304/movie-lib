@@ -45,9 +45,6 @@ export default async function Page({
     .splice(0, 2)
     .join(", ");
 
-  const pathName = (await headers()).get("x-path");
-  const mediaType = pathName?.startsWith("/m") ? "movie" : "tv";
-
   return (
     <div className="flex w-full items-center justify-center">
       <div className="h-[100dvh] w-full px-4">
@@ -93,10 +90,7 @@ export default async function Page({
 
               <PlayTrailer videoKey={movieTrailer} />
 
-              <MovieActions
-                movie={{ media_type: mediaType, ...movie }}
-                isFavorite={isFavorite}
-              />
+              <MovieActions movie={movie} isFavorite={isFavorite} />
             </div>
           </div>
           <div className="mt-2 flex flex-col gap-4">

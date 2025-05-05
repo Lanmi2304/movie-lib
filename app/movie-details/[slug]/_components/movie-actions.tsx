@@ -13,6 +13,7 @@ import { Bookmark, Heart, List } from "lucide-react";
 import { addToFavoritesAction } from "../_actions/add-to-favorites.action";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { usePathname } from "next/navigation";
 
 export function MovieActions({
   movie,
@@ -24,19 +25,22 @@ export function MovieActions({
   const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
   const [isPending, startTransition] = useTransition();
 
+  const pathname = usePathname();
+
+  const mediaType = pathname.startsWith("/m") ? "movie" : "tv";
+
   const toggleFavoriteHandler = () => {
     setIsFavorite((prev) => !prev);
 
     startTransition(async () => {
       try {
         const res = await addToFavoritesAction({
-          mediaType: movie.media_type ?? "",
+          mediaType,
           movieId: movie.id,
           title: movie.title ?? movie.name,
           posterPath: movie.poster_path,
           voteAverage: movie.vote_average ?? 0,
         });
-
         if (res?.serverError) throw new Error(res.serverError);
         toast.success(
           isFavorite
