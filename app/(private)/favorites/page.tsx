@@ -1,5 +1,6 @@
 import { getFavoritesList } from "@/app/(info-page)/_repositories/get-favorites.repository";
-import { MediaCard } from "@/app/search-results/_components/movie-card";
+import { MediaCard } from "@/components/shared/media-card";
+
 import { Telescope } from "lucide-react";
 
 export default async function Favorites() {

@@ -1,5 +1,5 @@
-import { MediaCard } from "@/app/search-results/_components/movie-card";
 import { Movie } from "@/app/search-results/page";
+import { MediaCard } from "@/components/shared/media-card";
 import {
   Carousel,
   CarouselContent,

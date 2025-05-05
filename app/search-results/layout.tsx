@@ -1,4 +1,4 @@
-import { Search } from "../(hero)/_components/search";
+import { Search } from "@/components/shared/search";
 
 export default function MoviesListLayout({
   children,

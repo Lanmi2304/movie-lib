@@ -1,4 +1,4 @@
-import { Search } from "./(hero)/_components/search";
+import { Search } from "@/components/shared/search";
 import { MediaCarousel } from "./(hero)/_components/media-carousel";
 
 export default function Page() {

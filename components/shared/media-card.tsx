@@ -1,5 +1,6 @@
+import { Movie } from "@/app/search-results/page";
 import { categoryTitleMovie, categoryTitleShow } from "@/lib/utils/categories";
-import { Movie } from "../page";
+
 import { cn } from "@/lib/utils/cn";
 import { Star } from "lucide-react";
 import Link from "next/link";

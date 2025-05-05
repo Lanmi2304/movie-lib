@@ -1,7 +1,7 @@
-import Item from "@/app/(hero)/_components/item";
-import { MediaCard } from "./movie-card";
 import { cn } from "@/lib/utils/cn";
 import { Movie } from "../page";
+import { MediaCard } from "@/components/shared/media-card";
+import Pagination from "@/app/search-results/_components/pagination";
 
 export async function MovieList({
   searchTerm,
@@ -52,7 +52,7 @@ export async function MovieList({
             />
           ))}
         </div>
-        <Item pageSize={20} totalCount={movieList.total_results} />
+        <Pagination pageSize={20} totalCount={movieList.total_results} />
       </div>
     </div>
   );
