@@ -1,7 +1,7 @@
 "use server";
 
+import { searchSchema } from "@/components/shared/search";
 import { authActionClient } from "@/lib/safe-action";
-import { searchSchema } from "../_schemas/search.schema";
 
 export const searchAction = authActionClient
   .metadata({ actionName: "searchAction" })
@@ -21,6 +21,4 @@ export const searchAction = authActionClient
       return {
         message: "Error while searching for a movie",
       };
-
-    console.log(await res.json());
   });
