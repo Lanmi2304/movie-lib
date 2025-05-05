@@ -47,7 +47,7 @@ export default async function Page({
 
   return (
     <div className="flex w-full items-center justify-center">
-      <div className="h-[100dvh] w-full px-4">
+      <div className="w-full px-4">
         <div className="relative h-[520px] w-full">
           <div
             className="absolute size-full mask-r-from-10% mask-l-from-10% bg-cover bg-center opacity-60"
@@ -93,15 +93,15 @@ export default async function Page({
               <MovieActions movie={movie} isFavorite={isFavorite} />
             </div>
           </div>
-          <div className="mt-2 flex flex-col gap-4">
-            <div>
-              <h3 className="text-foreground/60 text-2xl">Overview</h3>
-              <p>{movie.overview}</p>
-            </div>
-
-            <h3 className="text-foreground/60 text-2xl">Casts</h3>
-            <div></div>
+        </div>
+        <div className="mt-2 flex flex-col gap-4">
+          <div>
+            <h3 className="text-foreground/60 text-2xl">Overview</h3>
+            <p>{movie.overview}</p>
           </div>
+
+          <h3 className="text-foreground/60 text-2xl">Casts</h3>
+          <div></div>
         </div>
       </div>
     </div>
