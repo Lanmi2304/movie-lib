@@ -5,26 +5,25 @@ import { Telescope } from "lucide-react";
 
 export default async function Favorites() {
   const favorites = await getFavoritesList();
-  console.log(123, favorites);
 
   return (
-    <div className="flex size-full flex-col py-10">
+    <div className="flex flex-col py-10">
       <h1 className="text-2xl">Favorites</h1>
 
       {/* If list is empty render the message  */}
-      {favorites?.length === 0 && (
-        <div className="flex size-full items-center justify-center">
-          <div className="flex flex-col items-center text-xl font-semibold">
+      {favorites && favorites.length === 0 && (
+        <div className="flex items-center justify-center">
+          <div className="relative -top-20 flex flex-col items-center text-xl font-semibold">
             <Telescope className="size-10" />
-            <p>
+            <p className="text-center">
               Looks like you don&apos;t have favorites movies in your list..🫤
             </p>
-            <p>Feel free to add some</p>
+            <p className="mt-4">Feel free to add some</p>
           </div>
         </div>
       )}
 
-      {favorites?.length && favorites.length > 0 && (
+      {favorites && favorites.length > 0 && (
         <div className="mt-10 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
           {favorites?.map((movie) => (
             <MediaCard
