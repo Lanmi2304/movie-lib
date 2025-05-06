@@ -12,7 +12,7 @@ import {
 } from "@/app/(info-page)/movie-details/_api/movie";
 import { auth } from "@/server/auth";
 import { headers } from "next/headers";
-import { getMovieProviders } from "../_api/get-providers";
+import { fetchMovieProviders } from "../_api/get-providers";
 
 export default async function Page({
   params,
@@ -23,7 +23,7 @@ export default async function Page({
 
   const movie = await fetchMovieDetails(slug);
   const movieTrailer = await fetchMovieTrailer(movie.id);
-  const movieProviders = await getMovieProviders(movie.id);
+  const movieProviders = await fetchMovieProviders(movie.id);
   const session = await auth.api.getSession({ headers: await headers() });
 
   const userId = session?.user?.id;
@@ -31,7 +31,6 @@ export default async function Page({
   let isFavorite = false;
 
   const { RS } = movieProviders.results;
-  console.log(222, RS?.flatrate);
 
   if (userId) {
     const favorite = await db
@@ -76,7 +75,7 @@ export default async function Page({
             </div>
 
             {/* Details etc..  */}
-            <div className="relative flex w-full flex-col gap-8 lg:w-3/4">
+            <div className="relative flex w-full flex-col justify-between lg:w-3/4">
               <div>
                 <h1 className="text-4xl font-semibold">
                   {movie.title} ({movie.release_date.slice(0, 4)})
@@ -100,7 +99,7 @@ export default async function Page({
 
               <MovieActions movie={movie} isFavorite={isFavorite} />
 
-              <div>
+              <div className="">
                 <h3>
                   Where to watch <span>(Serbia)</span>
                 </h3>
