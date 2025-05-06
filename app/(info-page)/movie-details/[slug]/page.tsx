@@ -60,7 +60,7 @@ export default async function Page({
             <Image
               src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
               alt={`${movie.title} poster`}
-              className="absolute inset-0 rounded-xl object-cover object-center"
+              className="absolute inset-0 rounded-b-xl object-cover object-center"
               fill
             />
           </div>
