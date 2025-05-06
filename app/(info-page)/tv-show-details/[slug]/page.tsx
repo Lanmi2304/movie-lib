@@ -146,8 +146,7 @@ export default async function Page({
           </div>
         </div>
 
-        {}
-        <div className="mt-2 flex flex-col gap-4">
+        <div className="mt-8 flex flex-col gap-4 lg:mt-2">
           <div>
             <h3 className="text-foreground/70 text-2xl">Overview</h3>
             <p>{tvShow.overview}</p>
