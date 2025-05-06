@@ -1,9 +1,9 @@
 import { options } from "@/lib/configs/auth-options";
 
-export async function fetchMovieProviders(movieId: number) {
+export async function fetchProviders(type: "movie" | "tv", movieId: number) {
   try {
     const res = await fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}/watch/providers`,
+      `https://api.themoviedb.org/3/${type}/${movieId}/watch/providers`,
       options,
     );
 

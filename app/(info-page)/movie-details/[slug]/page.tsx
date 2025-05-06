@@ -9,10 +9,10 @@ import { and, eq } from "drizzle-orm";
 import {
   fetchMovieDetails,
   fetchMovieTrailer,
-} from "@/app/(info-page)/movie-details/_api/movie";
+} from "@/app/(info-page)/movie-details/_api/fetch-movie";
 import { auth } from "@/server/auth";
 import { headers } from "next/headers";
-import { fetchMovieProviders } from "../_api/get-providers";
+import { fetchProviders } from "../../_api/get-providers";
 
 export default async function Page({
   params,
@@ -23,7 +23,7 @@ export default async function Page({
 
   const movie = await fetchMovieDetails(slug);
   const movieTrailer = await fetchMovieTrailer(movie.id);
-  const movieProviders = await fetchMovieProviders(movie.id);
+  const movieProviders = await fetchProviders("movie", movie.id);
   const session = await auth.api.getSession({ headers: await headers() });
 
   const userId = session?.user?.id;
@@ -63,7 +63,7 @@ export default async function Page({
             }}
           ></div>
 
-          <div className="flex size-full gap-10 p-4 pt-10">
+          <div className="flex size-full gap-10 pt-10 lg:p-4">
             {/*  Poster */}
             <div className="relative hidden h-full w-1/4 lg:flex">
               <Image
@@ -99,7 +99,7 @@ export default async function Page({
 
               <MovieActions movie={movie} isFavorite={isFavorite} />
 
-              <div className="">
+              <div>
                 <h3>
                   Where to watch <span>(Serbia)</span>
                 </h3>

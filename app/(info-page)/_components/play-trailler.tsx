@@ -1,7 +1,13 @@
 "use client";
 
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { PlayCircle } from "lucide-react";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 
 export default function PlayTrailer({ videoKey }: { videoKey: string }) {
   return (
@@ -13,6 +19,9 @@ export default function PlayTrailer({ videoKey }: { videoKey: string }) {
         </div>
       </DialogTrigger>
       <DialogContent className="p-0">
+        <VisuallyHidden asChild>
+          <DialogTitle>Trailer title</DialogTitle>
+        </VisuallyHidden>
         <iframe
           style={{
             borderRadius: "1rem",

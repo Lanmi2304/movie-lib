@@ -1,7 +1,5 @@
 import { MovieActions } from "@/app/(info-page)/_components/movie-actions";
 import PlayTrailer from "@/app/(info-page)/_components/play-trailler";
-import { options } from "@/lib/configs/auth-options";
-
 import { categoryTitleShow } from "@/lib/utils/categories";
 import { auth } from "@/server/auth";
 import { db } from "@/server/db";
@@ -10,6 +8,8 @@ import { and, eq } from "drizzle-orm";
 import { Star, SunSnow, Tv } from "lucide-react";
 import { headers } from "next/headers";
 import Image from "next/image";
+import { fetchProviders } from "../../_api/get-providers";
+import { fetchTvShowDetails, fetchTvShowTrailer } from "../_api/fetch-tv-show";
 
 export default async function Page({
   params,
@@ -17,28 +17,10 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const response = await fetch(
-    `https://api.themoviedb.org/3/tv/${slug}?language=en-US'`,
-    {
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${process.env.TMDB_API_KEY}`,
-      },
-    },
-  );
-
-  const tvShow = await response.json();
-  const tvShowVideo = await fetch(
-    `https://api.themoviedb.org/3/tv/${tvShow.id}/videos?language=en-US`,
-    options,
-  );
-
-  const showVideo = await tvShowVideo.json();
-  const videoKey: string =
-    showVideo.results.filter(
-      (result: { type: string }) => result.type === "Trailer",
-    )[0]?.key ?? "";
-  console.log(tvShow);
+  const tvShow = await fetchTvShowDetails(slug);
+  const videoKey = await fetchTvShowTrailer(slug);
+  const tvProviders = await fetchProviders("tv", tvShow.id);
+  const { RS } = tvProviders.results;
 
   const session = await auth.api.getSession({ headers: await headers() });
 
@@ -77,7 +59,7 @@ export default async function Page({
             }}
           ></div>
 
-          <div className="flex size-full gap-10 p-4 pt-10">
+          <div className="flex size-full gap-10 pt-10 lg:p-4">
             {/*  Poster */}
             <div className="relative hidden h-full w-1/4 lg:flex">
               <Image
@@ -89,7 +71,7 @@ export default async function Page({
             </div>
 
             {/* Details etc..  */}
-            <div className="relative flex w-full flex-col gap-8 lg:w-3/4">
+            <div className="relative flex w-full flex-col justify-between lg:w-3/4">
               <div>
                 <h1 className="text-4xl font-semibold">{tvShow.name}</h1>
                 <p className="text-foreground/80">{categories}</p>
@@ -121,6 +103,33 @@ export default async function Page({
               <PlayTrailer videoKey={videoKey} />
 
               <MovieActions movie={tvShow} isFavorite={isFavorite} />
+
+              <div>
+                <h3>
+                  Where to watch <span>(Serbia)</span>
+                </h3>
+                {RS?.flatrate.length > 0 ? (
+                  RS?.flatrate.map(
+                    (
+                      el: { provider_name: string; logo_path: string },
+                      idx: number,
+                    ) => (
+                      <div key={idx} className="flex items-center gap-2 py-1">
+                        <Image
+                          src={`https://image.tmdb.org/t/p/original${el.logo_path}`}
+                          alt={`${el.provider_name} logo`}
+                          width={30}
+                          height={30}
+                          className="rounded-lg"
+                        />
+                        <p>{el.provider_name}</p>
+                      </div>
+                    ),
+                  )
+                ) : (
+                  <p className="text-red-300">Unavailable</p>
+                )}
+              </div>
             </div>
           </div>
         </div>

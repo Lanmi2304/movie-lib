@@ -7,18 +7,19 @@ export async function fetchMovieDetails(id: string) {
   );
 
   if (!res.ok) throw new Error("Failed to fetch movie details");
-  return res.json();
+  const movie = await res.json();
+  return movie;
 }
 
 export async function fetchMovieTrailer(id: string) {
-  const res = await fetch(
+  const response = await fetch(
     `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`,
     options,
   );
 
-  if (!res.ok) return "";
+  if (!response.ok) return "";
 
-  const json = await res.json();
+  const json = await response.json();
   return (
     json.results.find((r: { type: string }) => r.type === "Trailer")?.key ?? ""
   );
