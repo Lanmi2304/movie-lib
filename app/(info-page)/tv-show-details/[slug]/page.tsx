@@ -10,7 +10,7 @@ import { headers } from "next/headers";
 import Image from "next/image";
 import { fetchProviders } from "../../_api/get-providers";
 import { fetchTvShowDetails, fetchTvShowTrailer } from "../_api/fetch-tv-show";
-import { fetchTvShowCasts } from "../_api/fetch-credits";
+import { fetchCasts } from "../../_api/fetch-credits";
 import { CastsCarousel } from "../../_components/casts-carousel";
 
 export default async function Page({
@@ -20,7 +20,7 @@ export default async function Page({
 }) {
   const { slug } = await params;
   const tvShow = await fetchTvShowDetails(slug);
-  const casts = await fetchTvShowCasts(slug);
+  const casts = await fetchCasts("tv", slug);
   const videoKey = await fetchTvShowTrailer(slug);
   const tvProviders = await fetchProviders("tv", tvShow.id);
   const { RS } = tvProviders.results;

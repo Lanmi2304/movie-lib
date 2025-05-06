@@ -1,9 +1,9 @@
 import { options } from "@/lib/configs/auth-options";
 
-export async function fetchTvShowCasts(id: string) {
+export async function fetchCasts(type: "tv" | "movie", id: string) {
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/tv/${id}/credits?language=en-US`,
+      `https://api.themoviedb.org/3/${type}/${id}/credits?language=en-US`,
       options,
     );
 

@@ -13,6 +13,8 @@ import {
 import { auth } from "@/server/auth";
 import { headers } from "next/headers";
 import { fetchProviders } from "../../_api/get-providers";
+import { fetchCasts } from "../../_api/fetch-credits";
+import { CastsCarousel } from "../../_components/casts-carousel";
 
 export default async function Page({
   params,
@@ -24,6 +26,7 @@ export default async function Page({
   const movie = await fetchMovieDetails(slug);
   const movieTrailer = await fetchMovieTrailer(movie.id);
   const movieProviders = await fetchProviders("movie", movie.id);
+  const casts = await fetchCasts("movie", slug);
   const session = await auth.api.getSession({ headers: await headers() });
 
   const userId = session?.user?.id;
@@ -147,7 +150,7 @@ export default async function Page({
           </div>
 
           <h3 className="text-foreground/60 text-2xl">Casts</h3>
-          <div></div>
+          <CastsCarousel casts={casts} />
         </div>
       </div>
     </div>
