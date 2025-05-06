@@ -94,12 +94,12 @@ export default async function Page({
               </div>
 
               <div className="flex items-center gap-2">
-                <Clock />
+                <Clock className="text-foreground/70" />
                 <p>{movie.runtime} min</p>
               </div>
 
               <div className="flex items-center gap-2">
-                <Star />
+                <Star className="text-foreground/70" />
                 <p>{movie.vote_average.toFixed(1)}</p>
               </div>
 
@@ -112,7 +112,7 @@ export default async function Page({
               <MovieActions movie={movie} isFavorite={isFavorite} />
 
               <div>
-                <h3>
+                <h3 className="text-foreground/70">
                   Where to watch <span>(Serbia)</span>
                 </h3>
                 {RS?.flatrate.length > 0 ? (

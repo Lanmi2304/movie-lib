@@ -87,15 +87,17 @@ export default async function Page({
 
               <div className="flex items-center gap-2">
                 <Tv />
-                <p>
+                <p className="text-foreground/70">
                   Number of episodes:{" "}
-                  <strong>{tvShow.number_of_episodes}</strong>{" "}
+                  <strong className="text-foreground">
+                    {tvShow.number_of_episodes}
+                  </strong>{" "}
                 </p>
               </div>
 
               <div className="flex items-center gap-2">
                 <SunSnow />
-                <p>
+                <p className="text-foreground/70">
                   Number of seasons:{" "}
                   <strong>{tvShow.number_of_seasons}</strong>{" "}
                 </p>
@@ -115,7 +117,7 @@ export default async function Page({
               <MovieActions movie={tvShow} isFavorite={isFavorite} />
 
               <div>
-                <h3>
+                <h3 className="text-foreground/70">
                   Where to watch <span>(Serbia)</span>
                 </h3>
                 {RS?.flatrate.length > 0 ? (
@@ -137,7 +139,7 @@ export default async function Page({
                     ),
                   )
                 ) : (
-                  <p className="text-red-300">Unavailable</p>
+                  <p className="text-red-400">Unavailable</p>
                 )}
               </div>
             </div>
@@ -147,11 +149,11 @@ export default async function Page({
         {}
         <div className="mt-2 flex flex-col gap-4">
           <div>
-            <h3 className="text-foreground/60 text-2xl">Overview</h3>
+            <h3 className="text-foreground/70 text-2xl">Overview</h3>
             <p>{tvShow.overview}</p>
           </div>
 
-          <h3 className="text-foreground/60 text-2xl">Casts</h3>
+          <h3 className="text-foreground/70 text-2xl">Casts</h3>
           <div></div>
         </div>
       </div>
