@@ -50,7 +50,15 @@ export default async function Page({
 
   return (
     <div className="flex w-full items-center justify-center">
-      <div className="w-full px-4">
+      <div className="w-full lg:px-4">
+        <div className="relative block h-[500px] w-full lg:hidden">
+          <Image
+            src={`https://image.tmdb.org/t/p/original${tvShow.poster_path}`}
+            alt={`${tvShow.title} poster`}
+            className="absolute inset-0 rounded-xl object-cover object-center"
+            fill
+          />
+        </div>
         <div className="relative h-[520px] w-full">
           <div
             className="absolute size-full mask-r-from-10% mask-l-from-10% bg-cover bg-center opacity-60"
@@ -98,7 +106,9 @@ export default async function Page({
                 <p>{tvShow.vote_average.toFixed(1)}</p>
               </div>
 
-              <p className="text-lg italic">``{tvShow.tagline ?? ""}``</p>
+              {tvShow.tagline && (
+                <p className="text-lg italic">``{tvShow.tagline ?? ""}``</p>
+              )}
 
               <PlayTrailer videoKey={videoKey} />
 
