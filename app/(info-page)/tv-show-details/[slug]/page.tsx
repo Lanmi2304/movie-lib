@@ -86,7 +86,7 @@ export default async function Page({
               </div>
 
               <div className="flex items-center gap-2">
-                <Tv />
+                <Tv className="text-foreground/70" />
                 <p className="text-foreground/70">
                   Number of episodes:{" "}
                   <strong className="text-foreground">
@@ -96,7 +96,7 @@ export default async function Page({
               </div>
 
               <div className="flex items-center gap-2">
-                <SunSnow />
+                <SunSnow className="text-foreground/70" />
                 <p className="text-foreground/70">
                   Number of seasons:{" "}
                   <strong>{tvShow.number_of_seasons}</strong>{" "}
@@ -104,7 +104,7 @@ export default async function Page({
               </div>
 
               <div className="flex items-center gap-2">
-                <Star />
+                <Star className="text-foreground/70" />
                 <p>{tvShow.vote_average.toFixed(1)}</p>
               </div>
 
