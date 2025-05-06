@@ -67,7 +67,7 @@ export default async function Page({
         </div>
         <div className="relative h-[500px] w-full">
           <div
-            className="absolute size-full mask-r-from-10% mask-l-from-10% bg-cover bg-center opacity-60"
+            className="absolute size-full mask-r-from-10% mask-b-from-80% mask-l-from-10% bg-cover bg-center opacity-60"
             style={{
               backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})`,
             }}
