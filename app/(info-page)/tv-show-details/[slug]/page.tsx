@@ -12,6 +12,7 @@ import { fetchProviders } from "../../_api/get-providers";
 import { fetchTvShowDetails, fetchTvShowTrailer } from "../_api/fetch-tv-show";
 import { fetchCasts } from "../../_api/fetch-credits";
 import { CastsCarousel } from "../../_components/casts-carousel";
+import { Reviews } from "../../_components/reviews";
 
 export default async function Page({
   params,
@@ -23,6 +24,7 @@ export default async function Page({
   const casts = await fetchCasts("tv", slug);
   const videoKey = await fetchTvShowTrailer(slug);
   const tvProviders = await fetchProviders("tv", tvShow.id);
+
   const { RS } = tvProviders.results;
 
   const session = await auth.api.getSession({ headers: await headers() });
@@ -50,8 +52,6 @@ export default async function Page({
     .map((gen: { id: number; name: string }) => categoryTitleShow(gen.id))
     .splice(0, 2)
     .join(", ");
-
-  console.log(casts);
 
   return (
     <div className="flex w-full items-center justify-center">
@@ -159,6 +159,8 @@ export default async function Page({
 
           <h3 className="text-foreground/70 text-2xl">Casts</h3>
           <CastsCarousel casts={casts} />
+
+          <Reviews type={"tv"} id={slug} />
         </div>
       </div>
     </div>

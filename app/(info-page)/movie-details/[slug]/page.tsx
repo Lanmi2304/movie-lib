@@ -15,6 +15,7 @@ import { headers } from "next/headers";
 import { fetchProviders } from "../../_api/get-providers";
 import { fetchCasts } from "../../_api/fetch-credits";
 import { CastsCarousel } from "../../_components/casts-carousel";
+import { Reviews } from "../../_components/reviews";
 
 export default async function Page({
   params,
@@ -151,6 +152,8 @@ export default async function Page({
 
           <h3 className="text-foreground/60 text-2xl">Casts</h3>
           <CastsCarousel casts={casts} />
+
+          <Reviews type={"movie"} id={slug} />
         </div>
       </div>
     </div>
