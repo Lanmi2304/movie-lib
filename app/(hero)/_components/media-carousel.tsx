@@ -27,7 +27,6 @@ export async function MediaCarousel({
   });
 
   const movies = await response.json();
-  console.log("govno", movies);
 
   return (
     <div className="relative w-full rounded-xl bg-black/70 p-4">
