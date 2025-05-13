@@ -1,6 +1,6 @@
 "use client";
-
 import { useEffect, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { ReviewCard } from "./review-card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -19,45 +19,60 @@ export interface Review {
 }
 
 export function Reviews({ type, id }: { type: "tv" | "movie"; id: string }) {
+  const [cacheKey, setCacheKey] = useState(`${type}-${id}`);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [page, setPage] = useState(1);
   const [showAll, setShowAll] = useState(false);
   const [totalPages, setTotalPages] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Reset state when cache key changes
   useEffect(() => {
-    // Reset state on ID/type change
-    setReviews([]);
-    setPage(1);
-    setShowAll(false);
-    setTotalPages(0);
-  }, [id, type]);
+    const newKey = `${type}-${id}`;
+    if (newKey !== cacheKey) {
+      setCacheKey(newKey);
+      setReviews([]);
+      setPage(1);
+      setShowAll(false);
+      setTotalPages(0);
+      setError(null);
+    }
+  }, [type, id, cacheKey]);
 
   useEffect(() => {
     const getReviews = async () => {
       setLoading(true);
       setError(null);
-
       try {
         const res = await fetch(
           `/api/reviews?type=${type}&id=${id}&page=${page}`,
         );
         if (!res.ok) throw new Error("Failed to fetch reviews");
-
         const data = await res.json();
-        setReviews((prev) => [...prev, ...data.results]);
+
+        // If it's page 1, replace the reviews, otherwise append
+        if (page === 1) {
+          setReviews(data.results);
+        } else {
+          // Use a Set to ensure unique IDs when appending
+          const existingIds = new Set(reviews.map((review) => review.id));
+          const uniqueNewReviews = data.results.filter(
+            (review: Review) => !existingIds.has(review.id),
+          );
+          setReviews((prev) => [...prev, ...uniqueNewReviews]);
+        }
+
         setTotalPages(data.total_pages);
-      } catch (error) {
+      } catch (err) {
         setError("Failed to load reviews. Please try again.");
-        console.log(error);
+        console.error(err);
       } finally {
         setLoading(false);
       }
     };
-
     getReviews();
-  }, [id, page, type]);
+  }, [cacheKey, page, type, id]);
 
   const handleShowAll = () => setShowAll(true);
 
@@ -70,13 +85,12 @@ export function Reviews({ type, id }: { type: "tv" | "movie"; id: string }) {
   return (
     <div className="grid gap-4">
       <h3 className="text-foreground/70 text-2xl">Reviews</h3>
-
       {error && <div className="text-red-500">{error}</div>}
 
       {loading && reviews.length === 0 && (
         <>
           {Array.from({ length: 4 }).map((_, idx) => (
-            <Skeleton key={idx} className="h-40 w-full" />
+            <Skeleton key={`skeleton-${idx}`} className="h-40 w-full" />
           ))}
         </>
       )}
@@ -91,7 +105,10 @@ export function Reviews({ type, id }: { type: "tv" | "movie"; id: string }) {
             <>
               <div className="flex flex-col gap-2.5">
                 {reviews.slice(0, 3).map((review) => (
-                  <ReviewCard key={review.id} review={review} />
+                  <ReviewCard
+                    key={`${cacheKey}-${review.id}`}
+                    review={review}
+                  />
                 ))}
               </div>
               <Button variant="secondary" onClick={handleShowAll}>
@@ -102,7 +119,10 @@ export function Reviews({ type, id }: { type: "tv" | "movie"; id: string }) {
             <>
               <div className="flex flex-col gap-2.5">
                 {reviews.map((review) => (
-                  <ReviewCard key={review.id} review={review} />
+                  <ReviewCard
+                    key={`${cacheKey}-${review.id}`}
+                    review={review}
+                  />
                 ))}
               </div>
               {page < totalPages && (
