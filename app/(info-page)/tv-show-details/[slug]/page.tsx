@@ -13,6 +13,7 @@ import { fetchTvShowDetails, fetchTvShowTrailer } from "../_api/fetch-tv-show";
 import { fetchCasts } from "../../_api/fetch-credits";
 import { CastsCarousel } from "../../_components/casts-carousel";
 import { Reviews } from "../../_components/reviews";
+import { MediaCarousel } from "@/app/(hero)/_components/media-carousel";
 
 export default async function Page({
   params,
@@ -161,6 +162,11 @@ export default async function Page({
           <CastsCarousel casts={casts} />
 
           <Reviews type={"tv"} id={slug} />
+
+          <MediaCarousel
+            title={`Similar for '${tvShow.name}'`}
+            path={`https://api.themoviedb.org/3/tv/${slug}/similar`}
+          />
         </div>
       </div>
     </div>
