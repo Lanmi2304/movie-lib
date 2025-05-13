@@ -158,7 +158,7 @@ export default async function Page({
 
           <MediaCarousel
             title={`Similar for '${movie.title}'`}
-            description="NOTE: This method only looks for other items based on genres and plot keywords. As such, the results found here are not always going to be 💯. Use it with that in mind."
+            description="📘NOTE: This method only looks for other items based on genres and plot keywords. As such, the results found here are not always going to be 💯. Use it with that in mind."
             path={`https://api.themoviedb.org/3/movie/${movie.id}/similar`}
             type="movie-details"
           />
