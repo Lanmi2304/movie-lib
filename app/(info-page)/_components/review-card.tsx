@@ -5,7 +5,6 @@ import { Star } from "lucide-react";
 import Markdown from "react-markdown";
 
 export function ReviewCard({ review }: { review: Review }) {
-  console.log(review);
   return (
     <Card className="w-full">
       <CardHeader>

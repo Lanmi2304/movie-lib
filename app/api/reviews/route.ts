@@ -11,7 +11,6 @@ export async function GET(request: Request) {
       `https://api.themoviedb.org/3/${type}/${id}/reviews?language=en-US&page=${page}`,
       options,
     );
-    console.log(response);
 
     if (!response.ok) throw new Error("Error while fetching reviews.");
 

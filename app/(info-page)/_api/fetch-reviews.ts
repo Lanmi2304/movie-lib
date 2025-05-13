@@ -11,8 +11,6 @@ export async function fetchReviews(
       options,
     );
 
-    console.log(response);
-
     if (!response.ok) throw new Error("Error while fetching reviews.");
 
     const json = await response.json().then((value) => value.results);

@@ -22,7 +22,6 @@ export async function MovieList({
   );
 
   const movieList = await response.json();
-  console.log(123, movieList);
 
   if (!movieList.results.length) return <div>No results found</div>;
 
