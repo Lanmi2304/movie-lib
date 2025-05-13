@@ -51,11 +51,11 @@ export function Reviews({ type, id }: { type: "tv" | "movie"; id: string }) {
         if (!res.ok) throw new Error("Failed to fetch reviews");
         const data = await res.json();
 
-        // If it's page 1, replace the reviews, otherwise append
+        // If its page 1 replace the reviews otherwise append
         if (page === 1) {
           setReviews(data.results);
         } else {
-          // Use a Set to ensure unique IDs when appending
+          // only unique ids
           const existingIds = new Set(reviews.map((review) => review.id));
           const uniqueNewReviews = data.results.filter(
             (review: Review) => !existingIds.has(review.id),
