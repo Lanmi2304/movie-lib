@@ -38,7 +38,7 @@ const data = {
 
   navMain: [
     {
-      title: "Watched",
+      title: "Watched list",
       url: "#",
       icon: BookMarked,
       isActive: true,

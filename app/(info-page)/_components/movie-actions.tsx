@@ -9,11 +9,20 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Bookmark, Heart, List } from "lucide-react";
+import { Bookmark, Heart, List, Star } from "lucide-react";
 import { addToFavoritesAction } from "../_actions/add-to-favorites.action";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { usePathname } from "next/navigation";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { ReviewForm } from "./review-form";
 
 export function MovieActions({
   movie,
@@ -23,6 +32,8 @@ export function MovieActions({
   isFavorite: boolean;
 }) {
   const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
+  const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
+
   const [isPending, startTransition] = useTransition();
 
   const pathname = usePathname();
@@ -90,7 +101,7 @@ export function MovieActions({
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Add to your watchlist</p>
+            <p>Add to your watched list</p>
           </TooltipContent>
         </Tooltip>
 
@@ -104,6 +115,36 @@ export function MovieActions({
             <p>Add to your watch next list</p>
           </TooltipContent>
         </Tooltip>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              className="cursor-pointer rounded-full p-3"
+              onClick={() => setReviewDialogOpen(true)}
+            >
+              <Star className="text-black" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Add to your watch next list</p>
+          </TooltipContent>
+        </Tooltip>
+
+        <Dialog
+          open={reviewDialogOpen}
+          onOpenChange={() => setReviewDialogOpen((prev) => !prev)}
+        >
+          <DialogTrigger className="hidden">Open</DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>
+                Leave review for {`'${movie.title ?? movie.name}'`}
+              </DialogTitle>
+              <DialogDescription>{/* FORM MAYBE  */}</DialogDescription>
+            </DialogHeader>
+            <ReviewForm />
+          </DialogContent>
+        </Dialog>
       </TooltipProvider>
     </div>
   );
