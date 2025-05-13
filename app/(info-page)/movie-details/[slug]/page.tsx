@@ -16,6 +16,7 @@ import { fetchProviders } from "../../_api/get-providers";
 import { fetchCasts } from "../../_api/fetch-credits";
 import { CastsCarousel } from "../../_components/casts-carousel";
 import { Reviews } from "../../_components/reviews";
+import { MediaCarousel } from "@/app/(hero)/_components/media-carousel";
 
 export default async function Page({
   params,
@@ -154,6 +155,13 @@ export default async function Page({
           <CastsCarousel casts={casts} />
 
           <Reviews type={"movie"} id={slug} />
+
+          <MediaCarousel
+            title={`Similar for '${movie.title}'`}
+            description="NOTE: This method only looks for other items based on genres and plot keywords. As such, the results found here are not always going to be 💯. Use it with that in mind."
+            path={`https://api.themoviedb.org/3/movie/${movie.id}/similar`}
+            type="movie-details"
+          />
         </div>
       </div>
     </div>

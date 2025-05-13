@@ -1,15 +1,16 @@
 import { Movie } from "@/app/search-results/page";
 import { categoryTitleMovie, categoryTitleShow } from "@/lib/utils/categories";
-
 import { cn } from "@/lib/utils/cn";
 import { Star } from "lucide-react";
 import Link from "next/link";
 
 export function MediaCard({
   movie,
+  type,
   className,
 }: {
   movie: Movie;
+  type?: "movie-details" | "tv-show-details";
   className?: string;
 }) {
   const poster = movie.poster_path
@@ -36,7 +37,11 @@ export function MediaCard({
   return (
     <Link
       href={
-        !mediaType ? `movie-details/${movie.id}` : `tv-show-details/${movie.id}`
+        !type
+          ? !mediaType
+            ? `movie-details/${movie.id}`
+            : `tv-show-details/${movie.id}`
+          : `http://localhost:3000/${type}/${movie.id}`
       }
     >
       <div className="group/card">
