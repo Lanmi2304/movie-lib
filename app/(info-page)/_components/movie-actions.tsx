@@ -23,16 +23,54 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ReviewForm } from "./review-form";
+import { submitReviewAction } from "../_actions/submit-review.action";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function MovieActions({
   movie,
   isFavorite: initialIsFavorite,
+  isRated: initialIsRated,
 }: {
   movie: Movie;
   isFavorite: boolean;
+  isRated: boolean;
 }) {
   const [isFavorite, setIsFavorite] = useState(initialIsFavorite);
+  const [rated, setIsRated] = useState(initialIsRated);
   const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
+
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: async ({
+      review,
+      currentRating,
+    }: {
+      review: string;
+      currentRating: number;
+    }) => {
+      await submitReviewAction({
+        mediaType,
+        movieId: movie.id,
+        review,
+        rate: currentRating,
+      });
+    },
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
+        queryKey: ["submitReviews"],
+      });
+      setReviewDialogOpen(false);
+      setIsRated(true);
+      toast.success("Successfully added review!");
+    },
+    onError: async (error) => {
+      setIsRated(false);
+      toast.error(
+        error instanceof Error ? error.message : "Unknown error occurred!",
+      );
+    },
+  });
 
   const [isPending, startTransition] = useTransition();
 
@@ -68,6 +106,10 @@ export function MovieActions({
         setIsFavorite(false);
       }
     });
+  };
+
+  const submitReviewHandler = async (review: string, currentRating: number) => {
+    mutation.mutate({ review, currentRating });
   };
 
   return (
@@ -119,14 +161,17 @@ export function MovieActions({
         <Tooltip>
           <TooltipTrigger asChild>
             <Button
-              className="cursor-pointer rounded-full p-3"
+              className={cn(
+                "cursor-pointer rounded-full p-3",
+                rated && "bg-amber-500",
+              )}
               onClick={() => setReviewDialogOpen(true)}
             >
-              <Star className="text-black" />
+              <Star className={cn("text-black", rated && "text-white")} />
             </Button>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Add to your watch next list</p>
+            <p>Leave review</p>
           </TooltipContent>
         </Tooltip>
 
@@ -135,14 +180,18 @@ export function MovieActions({
           onOpenChange={() => setReviewDialogOpen((prev) => !prev)}
         >
           <DialogTrigger className="hidden">Open</DialogTrigger>
-          <DialogContent>
+          <DialogContent className="rounded-lg">
             <DialogHeader>
-              <DialogTitle>
-                Leave review for {`'${movie.title ?? movie.name}'`}
+              <DialogTitle className="text-foreground/70 text-left">
+                Leave review for{" "}
+                <span className="text-foreground font-semibold">{`'${movie.title ?? movie.name}'`}</span>
               </DialogTitle>
-              <DialogDescription>{/* FORM MAYBE  */}</DialogDescription>
+              <DialogDescription className="text-left">
+                How would you rate this media? Choose a value from 1 (Very Poor)
+                to 10 (Excellent)
+              </DialogDescription>
             </DialogHeader>
-            <ReviewForm />
+            <ReviewForm submitReviewHandler={submitReviewHandler} />
           </DialogContent>
         </Dialog>
       </TooltipProvider>

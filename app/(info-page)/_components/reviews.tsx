@@ -4,12 +4,15 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ReviewCard } from "./review-card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { queryOptions, useQuery } from "@tanstack/react-query";
+import { getPersonalReviewsAction } from "../_actions/get-personal-reviews.action";
+import { authClient } from "@/lib/auth-client";
 
 export interface Review {
   id: string;
   content: string;
   author: string;
-  created_at: string;
+  created_at: string | Date;
   author_details: {
     avatar_path: string | null;
     name: string;
@@ -18,7 +21,27 @@ export interface Review {
   };
 }
 
-export function Reviews({ type, id }: { type: "tv" | "movie"; id: string }) {
+export type PersonalReview =
+  | {
+      id: number;
+      userId: string;
+      mediaType: string;
+      movieId: number;
+      review: string;
+      rate: number;
+      createdAt: Date | null;
+    }
+  | undefined;
+
+export function Reviews({
+  type,
+  id,
+  // review,
+}: {
+  type: "tv" | "movie";
+  id: string;
+  review: PersonalReview;
+}) {
   const [cacheKey, setCacheKey] = useState(`${type}-${id}`);
   const [reviews, setReviews] = useState<Review[]>([]);
   const [page, setPage] = useState(1);
@@ -26,6 +49,14 @@ export function Reviews({ type, id }: { type: "tv" | "movie"; id: string }) {
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { data: session } = authClient.useSession();
+
+  const { data } = useQuery(
+    queryOptions({
+      queryKey: ["submitReviews"],
+      queryFn: () => getPersonalReviewsAction({ mediaId: Number(id) }),
+    }),
+  );
 
   // Reset state when cache key changes
   useEffect(() => {
@@ -82,6 +113,21 @@ export function Reviews({ type, id }: { type: "tv" | "movie"; id: string }) {
     }
   };
 
+  const personalReview = data?.data?.[0];
+
+  const review = {
+    id: session?.user.id ?? "",
+    content: personalReview?.review ?? "",
+    author: session?.user.name ?? "",
+    created_at: personalReview?.createdAt ?? "",
+    author_details: {
+      avatar_path: session?.user.image ?? null,
+      name: session?.user.name ?? "",
+      rating: personalReview?.rate ?? 0,
+      username: session?.user.name ?? "",
+    },
+  };
+
   return (
     <div className="grid gap-4">
       <h3 className="text-foreground/70 text-2xl">Reviews</h3>
@@ -95,10 +141,17 @@ export function Reviews({ type, id }: { type: "tv" | "movie"; id: string }) {
         </>
       )}
 
-      {!loading && reviews.length === 0 && !error && (
+      {!loading && reviews.length === 0 && !error && !personalReview && (
         <div>No reviews found for this media.</div>
       )}
 
+      {personalReview && (
+        <ReviewCard
+          review={review}
+          personal={true}
+          className="border-amber-500"
+        />
+      )}
       {reviews.length > 0 && (
         <div className="flex flex-col gap-4">
           {!showAll ? (

@@ -3,7 +3,7 @@ import PlayTrailer from "@/app/(info-page)/_components/play-trailler";
 import { categoryTitleShow } from "@/lib/utils/categories";
 import { auth } from "@/server/auth";
 import { db } from "@/server/db";
-import { favoritesMovies } from "@/server/db/auth-schema";
+import { favoritesMovies, reviews } from "@/server/db/auth-schema";
 import { and, eq } from "drizzle-orm";
 import { Star, SunSnow, Tv } from "lucide-react";
 import { headers } from "next/headers";
@@ -33,6 +33,7 @@ export default async function Page({
   const userId = session?.user?.id;
 
   let isFavorite = false;
+  let isRated = false;
 
   if (userId) {
     const favorite = await db
@@ -46,7 +47,14 @@ export default async function Page({
       )
       .limit(1);
 
+    const rated = await db
+      .select()
+      .from(reviews)
+      .where(and(eq(reviews.movieId, tvShow.id), eq(reviews.userId, userId)))
+      .limit(1);
+
     isFavorite = favorite.length > 0;
+    isRated = rated.length > 0;
   }
 
   const categories = tvShow.genres
@@ -120,7 +128,11 @@ export default async function Page({
 
               <PlayTrailer videoKey={videoKey} />
 
-              <MovieActions movie={tvShow} isFavorite={isFavorite} />
+              <MovieActions
+                movie={tvShow}
+                isFavorite={isFavorite}
+                isRated={isRated}
+              />
 
               <div>
                 <h3 className="text-foreground/70">

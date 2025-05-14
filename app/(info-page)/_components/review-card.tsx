@@ -3,20 +3,33 @@ import { Review } from "./reviews";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star } from "lucide-react";
 import Markdown from "react-markdown";
+import { cn } from "@/lib/utils/cn";
 
-export function ReviewCard({ review }: { review: Review }) {
+export function ReviewCard({
+  review,
+  personal,
+  className,
+}: {
+  review: Review;
+  personal?: boolean;
+  className?: string;
+}) {
   return (
-    <Card className="w-full">
+    <Card className={cn("w-full", className)}>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Avatar>
-            <AvatarImage
-              src={
-                review.author_details.avatar_path
-                  ? `https://image.tmdb.org/t/p/original${review.author_details.avatar_path}`
-                  : "/images/profile-avatar-placeholder.png"
-              }
-            />
+            {!personal ? (
+              <AvatarImage
+                src={
+                  review.author_details.avatar_path
+                    ? `https://image.tmdb.org/t/p/original${review.author_details.avatar_path}`
+                    : "/images/profile-avatar-placeholder.png"
+                }
+              />
+            ) : (
+              <AvatarImage src={review.author_details.avatar_path ?? ""} />
+            )}
             <AvatarFallback />
           </Avatar>
 

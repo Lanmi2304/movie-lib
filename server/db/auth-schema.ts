@@ -70,3 +70,15 @@ export const favoritesMovies = pgTable("favorites-movies", {
   posterPath: text("poster_path").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+export const reviews = pgTable("reviews", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id")
+    .notNull()
+    .references(() => user.id, { onDelete: "cascade" }),
+  mediaType: text("media_type").notNull(),
+  movieId: integer("movie_id").notNull(),
+  review: text("review").notNull(),
+  rate: integer("rate").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});

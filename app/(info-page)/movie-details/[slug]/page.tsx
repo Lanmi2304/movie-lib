@@ -4,7 +4,7 @@ import Image from "next/image";
 import PlayTrailer from "../../_components/play-trailler";
 import { MovieActions } from "../../_components/movie-actions";
 import { db } from "@/server/db";
-import { favoritesMovies } from "@/server/db/auth-schema";
+import { favoritesMovies, reviews } from "@/server/db/auth-schema";
 import { and, eq } from "drizzle-orm";
 import {
   fetchMovieDetails,
@@ -33,9 +33,11 @@ export default async function Page({
 
   const userId = session?.user?.id;
 
-  let isFavorite = false;
-
   const { RS } = movieProviders.results;
+
+  let isFavorite = false;
+  let isRated = false;
+  let review;
 
   if (userId) {
     const favorite = await db
@@ -49,7 +51,15 @@ export default async function Page({
       )
       .limit(1);
 
+    const rated = await db
+      .select()
+      .from(reviews)
+      .where(and(eq(reviews.movieId, movie.id), eq(reviews.userId, userId)))
+      .limit(1);
+
     isFavorite = favorite.length > 0;
+    isRated = rated.length > 0;
+    review = rated[0];
   }
 
   const categories = movie.genres
@@ -114,7 +124,11 @@ export default async function Page({
 
               <PlayTrailer videoKey={movieTrailer} />
 
-              <MovieActions movie={movie} isFavorite={isFavorite} />
+              <MovieActions
+                movie={movie}
+                isFavorite={isFavorite}
+                isRated={isRated}
+              />
 
               <div>
                 <h3 className="text-foreground/70">
@@ -154,7 +168,7 @@ export default async function Page({
           <h3 className="text-foreground/60 text-2xl">Casts</h3>
           <CastsCarousel casts={casts} />
 
-          <Reviews type={"movie"} id={slug} />
+          <Reviews type={"movie"} id={slug} review={review} />
 
           <MediaCarousel
             title={`Similar for '${movie.title}'`}
