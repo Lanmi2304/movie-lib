@@ -34,6 +34,7 @@ export default async function Page({
 
   let isFavorite = false;
   let isRated = false;
+  let review;
 
   if (userId) {
     const favorite = await db
@@ -55,6 +56,7 @@ export default async function Page({
 
     isFavorite = favorite.length > 0;
     isRated = rated.length > 0;
+    review = rated[0];
   }
 
   const categories = tvShow.genres
@@ -173,7 +175,7 @@ export default async function Page({
           <h3 className="text-foreground/70 text-2xl">Casts</h3>
           <CastsCarousel casts={casts} />
 
-          <Reviews type={"tv"} id={slug} />
+          <Reviews type={"tv"} review={review} id={slug} />
 
           <MediaCarousel
             title={`Similar for '${tvShow.name}'`}
