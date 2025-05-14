@@ -49,13 +49,16 @@ export function MovieActions({
       review: string;
       currentRating: number;
     }) => {
-      await submitReviewAction({
+      const response = await submitReviewAction({
         mediaType,
         movieId: movie.id,
         review,
         rate: currentRating,
       });
+
+      if (response?.serverError) throw new Error(response?.serverError);
     },
+
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: ["submitReviews"],
