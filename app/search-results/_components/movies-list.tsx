@@ -32,11 +32,12 @@ export async function MovieList({
 
   return (
     <div>
-      <p className="text-muted-foreground mb-4">
+      <p className="text-muted-foreground mb-4 text-left">
         Search results for: &nbsp;{" "}
         <span className="text-foreground">{resultsFor.toUpperCase()}</span>
       </p>
-      <div className="mb-10 grid w-full gap-10">
+
+      <div className="mb-10 flex w-full flex-col justify-center gap-10">
         <div
           className={cn(
             "grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4",
