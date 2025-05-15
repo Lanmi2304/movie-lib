@@ -2,30 +2,15 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/shared/sidebar/app-sidebar";
 import { TailwindIndicator } from "@/components/shared/tailwind-indicator";
-
 import { auth } from "@/server/auth";
 import { headers } from "next/headers";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { LogOutItem } from "@/components/shared/sidebar/_components/logut-dropdown-item";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { Container } from "@/components/shared/container";
 import { Toaster } from "@/components/ui/sooner";
 import { QueryProvider } from "@/components/providers/query-client-provider";
+import { Header } from "@/components/shared/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -63,57 +48,7 @@ export default async function RootLayout({
               <AppSidebar user={session?.user} />
               <SidebarInset className="w-full overflow-hidden bg-transparent">
                 <div className="fixed top-0 z-[-2] h-full w-screen bg-neutral-950 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(60,60,120,0.5),rgba(0,0,0,0))]"></div>
-                <header className="bg-background/90 sticky top-0 z-30 flex h-16 w-full shrink-0 items-center justify-between gap-2 border-b px-4 backdrop-blur-md">
-                  <SidebarTrigger />
-                  {!session?.user ? (
-                    <Button asChild size="sm" variant="secondary">
-                      <Link href="/sign-in">Sign in</Link>
-                    </Button>
-                  ) : (
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild className="cursor-pointer">
-                        <Avatar className="size-8 rounded-full">
-                          {session.user.image ? (
-                            <AvatarImage
-                              src={session.user.image}
-                              alt={session.user.name}
-                            />
-                          ) : null}
-                          <AvatarFallback className="rounded-full">
-                            {session.user.name.slice(0, 1)}
-                          </AvatarFallback>
-                        </Avatar>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent className="w-56">
-                        <DropdownMenuLabel className="p-0 font-normal">
-                          <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                            <Avatar className="size-8 rounded-full">
-                              {session.user.image ? (
-                                <AvatarImage
-                                  src={session.user.image}
-                                  alt={session.user.name}
-                                />
-                              ) : null}
-                              <AvatarFallback className="rounded-full">
-                                CN
-                              </AvatarFallback>
-                            </Avatar>
-                            <div className="grid flex-1 text-left text-sm leading-tight">
-                              <span className="truncate font-semibold">
-                                {session.user.name}
-                              </span>
-                              <span className="truncate text-xs">
-                                {session.user.email}
-                              </span>
-                            </div>
-                          </div>
-                        </DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <LogOutItem />
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  )}
-                </header>
+                <Header user={session?.user} />
                 <Container className="mx-auto mb-0 size-full px-4">
                   {children}
                 </Container>

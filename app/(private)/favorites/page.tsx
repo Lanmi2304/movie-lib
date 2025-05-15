@@ -12,7 +12,7 @@ export default async function Favorites() {
 
       {/* If list is empty render the message  */}
       {favorites && favorites.length === 0 && (
-        <div className="flex items-center justify-center">
+        <div className="flex h-screen items-center justify-center">
           <div className="relative -top-20 flex flex-col items-center text-xl font-semibold">
             <Telescope className="size-10" />
             <p className="text-center">
