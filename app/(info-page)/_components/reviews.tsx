@@ -1,42 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
-
 import { Button } from "@/components/ui/button";
 import { ReviewCard } from "./review-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { getPersonalReviewsAction } from "../_actions/get-personal-reviews.action";
 import { authClient } from "@/lib/auth-client";
-
-export interface Review {
-  id: string;
-  content: string;
-  author: string;
-  created_at: string | Date;
-  author_details: {
-    avatar_path: string | null;
-    name: string;
-    rating: number;
-    username: string;
-  };
-}
-
-export type PersonalReview =
-  | {
-      id: number;
-      userId: string;
-      mediaType: string;
-      movieId: number;
-      review: string;
-      rate: number;
-      createdAt: Date | null;
-    }
-  | undefined;
+import { PersonalReview, Review } from "../_types/reviews.type";
 
 export function Reviews({
   type,
   id,
-  // review,
 }: {
   type: "tv" | "movie";
   id: string;
@@ -46,9 +20,6 @@ export function Reviews({
   const [reviews, setReviews] = useState<Review[]>([]);
   const [page, setPage] = useState(1);
   const [showAll, setShowAll] = useState(false);
-  const [totalPages, setTotalPages] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const { data: session } = authClient.useSession();
 
   const { data } = useQuery(
@@ -58,62 +29,31 @@ export function Reviews({
     }),
   );
 
-  // Reset state when cache key changes
-  useEffect(() => {
-    const newKey = `${type}-${id}`;
-    if (newKey !== cacheKey) {
-      setCacheKey(newKey);
-      setReviews([]);
-      setPage(1);
-      setShowAll(false);
-      setTotalPages(0);
-      setError(null);
-    }
-  }, [type, id, cacheKey]);
-
-  useEffect(() => {
-    const getReviews = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await fetch(
+  const {
+    data: reviewsData,
+    isFetching,
+    isError,
+  } = useQuery(
+    queryOptions({
+      queryKey: ["getReviews"],
+      queryFn: async () => {
+        const data = await fetch(
           `/api/reviews?type=${type}&id=${id}&page=${page}`,
-        );
-        if (!res.ok) throw new Error("Failed to fetch reviews");
-        const data = await res.json();
+        ).then((data) => data.json());
+        return data;
+      },
+    }),
+  );
 
-        // If its page 1 replace the reviews otherwise append
-        if (page === 1) {
-          setReviews(data.results);
-        } else {
-          // only unique ids
-          const existingIds = new Set(reviews.map((review) => review.id));
-          const uniqueNewReviews = data.results.filter(
-            (review: Review) => !existingIds.has(review.id),
-          );
-          setReviews((prev) => [...prev, ...uniqueNewReviews]);
-        }
-
-        setTotalPages(data.total_pages);
-      } catch (err) {
-        setError("Failed to load reviews. Please try again.");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    getReviews();
-  }, [cacheKey, page, type, id]);
+  const personalReview = data?.data?.[0];
 
   const handleShowAll = () => setShowAll(true);
 
   const handleLoadMore = () => {
-    if (page < totalPages) {
+    if (page < reviewsData?.total_pages) {
       setPage((prev) => prev + 1);
     }
   };
-
-  const personalReview = data?.data?.[0];
 
   const review = {
     id: session?.user.id ?? "",
@@ -128,12 +68,34 @@ export function Reviews({
     },
   };
 
+  useEffect(() => {
+    const newKey = `${type}-${id}`;
+    if (newKey !== cacheKey) {
+      setCacheKey(newKey);
+      setReviews([]);
+      setPage(1);
+      setShowAll(false);
+    }
+  }, [type, id, cacheKey]);
+
+  useEffect(() => {
+    if (page === 1) {
+      setReviews(reviewsData?.results);
+    } else {
+      const existingIds = new Set(reviews.map((review) => review.id));
+      const uniqueNewReviews = reviewsData?.results.filter(
+        (review: Review) => !existingIds.has(review.id),
+      );
+      setReviews((prev) => [...prev, ...uniqueNewReviews]);
+    }
+  }, [cacheKey, page, type, id]);
+
   return (
     <div className="grid gap-4">
       <h3 className="text-foreground/70 text-2xl">Reviews</h3>
-      {error && <div className="text-red-500">{error}</div>}
+      {isError && <div className="text-red-500">{isError}</div>}
 
-      {loading && reviews.length === 0 && (
+      {isFetching && reviewsData?.results.length !== 0 && (
         <>
           {Array.from({ length: 4 }).map((_, idx) => (
             <Skeleton key={`skeleton-${idx}`} className="h-40 w-full" />
@@ -141,9 +103,10 @@ export function Reviews({
         </>
       )}
 
-      {!loading && reviews.length === 0 && !error && !personalReview && (
-        <div>No reviews found for this media.</div>
-      )}
+      {!isFetching &&
+        reviewsData?.results.length === 0 &&
+        !isError &&
+        !personalReview && <div>No reviews found for this media.</div>}
 
       {personalReview && (
         <ReviewCard
@@ -152,12 +115,12 @@ export function Reviews({
           className="border-amber-500"
         />
       )}
-      {reviews.length > 0 && (
+      {reviewsData?.results.length > 0 && (
         <div className="flex flex-col gap-4">
           {!showAll ? (
             <>
               <div className="flex flex-col gap-2.5">
-                {reviews.slice(0, 3).map((review) => (
+                {reviewsData.results.slice(0, 3).map((review: Review) => (
                   <ReviewCard
                     key={`${cacheKey}-${review.id}`}
                     review={review}
@@ -171,20 +134,20 @@ export function Reviews({
           ) : (
             <>
               <div className="flex flex-col gap-2.5">
-                {reviews.map((review) => (
+                {reviewsData.results.map((review: Review) => (
                   <ReviewCard
                     key={`${cacheKey}-${review.id}`}
                     review={review}
                   />
                 ))}
               </div>
-              {page < totalPages && (
+              {page < reviewsData.total_pages && (
                 <Button
                   variant="secondary"
                   onClick={handleLoadMore}
-                  disabled={loading}
+                  disabled={isFetching}
                 >
-                  {loading ? "Loading..." : "Load More"}
+                  {isFetching ? "Loading..." : "Load More"}
                 </Button>
               )}
             </>
