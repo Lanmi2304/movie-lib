@@ -1,9 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Review } from "./reviews";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Star } from "lucide-react";
 import Markdown from "react-markdown";
 import { cn } from "@/lib/utils/cn";
+import { Review } from "../_types/reviews.type";
 
 export function ReviewCard({
   review,
