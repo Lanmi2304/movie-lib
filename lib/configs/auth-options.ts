@@ -1,4 +1,3 @@
-// TODO: refactor this
 export const options = {
   headers: {
     accept: "application/json",

@@ -10,7 +10,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/lib/hooks/use-mobile";
 
 export function NavMain({
   items,

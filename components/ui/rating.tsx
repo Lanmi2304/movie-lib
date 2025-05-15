@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import { Star } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/lib/hooks/use-mobile";
 
 const ratingVariants = {
   default: {

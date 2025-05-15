@@ -26,7 +26,7 @@ import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 import Link from "next/link";
 import { User as UserType } from "better-auth";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/lib/hooks/use-mobile";
 
 // This is sample data.
 const data = {
